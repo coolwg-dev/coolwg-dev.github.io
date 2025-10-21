@@ -29,6 +29,8 @@ header h1{margin:0;font-size:28px}
 .tagline{color:var(--muted);margin-top:6px}
 .hero{margin-top:28px}
 .hero h2{margin:0 0 8px 0;font-size:22px}
+.hero-logo-link{display:block;text-align:center;margin-bottom:12px}
+.hero-logo{max-width:320px;height:auto;width:60%;max-height:120px;object-fit:contain;border-radius:8px}
 .links{margin-top:18px}
 .button{
   display:inline-block;
