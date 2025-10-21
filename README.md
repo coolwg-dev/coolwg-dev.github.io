@@ -2,13 +2,25 @@
 
 Placeholder GitHub Pages site for the `coolwg-dev` organization.
 
-Quick start — preview locally:
+This site now uses a Jekyll theme: `jekyll-theme-slate` (a grey theme supplied by GitHub Pages).
 
-1. Install a simple HTTP server (optional):
-   - Python: `python -m http.server 8000` (works with Python 3.x)
-   - Node (http-server): `npx http-server -p 8000`
+Quick start — preview locally with Jekyll (recommended):
 
-2. From the repository root run one of the above commands and open `http://localhost:8000` in your browser.
+1. Install Ruby and Bundler if you don't have them. On Windows, using RubyInstaller is recommended.
+2. From the repository root install dependencies and serve locally:
+
+```powershell
+gem install bundler
+bundle install
+bundle exec jekyll serve --host 127.0.0.1 --port 4000
+```
+
+Open http://127.0.0.1:4000 in your browser.
+
+If you prefer a lightweight file server for quick checks you can still use:
+
+- Python: `python -m http.server 8000`
+- Node (http-server): `npx http-server -p 8000`
 
 Deploy:
 
