@@ -1,9 +1,12 @@
----
-layout: default
-title: coolwg-dev
----
-
-<!-- Local styles are preserved in assets/styles.css; the Jekyll theme will provide the page chrome. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>coolwg-dev</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
 
 <main class="container">
   <header class="fade-in">
@@ -69,9 +72,9 @@ title: coolwg-dev
       </div>
 
       <div class="project-card slide-in-right">
-        <div class="project-image project-placeholder">
+        <div class="project-image">
           <a href="https://fortune-telling-six.vercel.app" target="_blank" rel="noopener" class="project-link">
-            <div class="placeholder-icon">🔮</div>
+            <img src="assets/images/fortune-telling-icon.svg" alt="Fortune Telling" class="project-logo" />
           </a>
         </div>
         <div class="project-content">
@@ -118,25 +121,7 @@ title: coolwg-dev
   </footer>
 </main>
 
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-  
-  // Intersection Observer for scroll animations
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  };
+<script src="assets/main.js"></script>
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, observerOptions);
-
-  // Observe all animated elements
-  document.querySelectorAll('.project-card').forEach(card => {
-    observer.observe(card);
-  });
-</script>
+</body>
+</html>
