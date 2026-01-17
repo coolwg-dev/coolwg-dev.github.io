@@ -1,38 +1,28 @@
 # coolwg-dev.github.io
 
-Placeholder GitHub Pages site for the `coolwg-dev` organization.
+Static GitHub Pages site for the `coolwg-dev` organization.
 
-This site now uses a Jekyll theme: `jekyll-theme-slate` (a grey theme supplied by GitHub Pages).
+This is a simple static website with HTML, CSS, and JavaScript.
 
-Quick start — preview locally with Jekyll (recommended):
+## Quick start — preview locally
 
-1. Install Ruby and Bundler if you don't have them. On Windows, using RubyInstaller is recommended.
-2. From the repository root install dependencies and serve locally:
+For quick checks, you can serve the site locally using a simple HTTP server:
 
-```powershell
-gem install bundler
-bundle install
-bundle exec jekyll serve --host 127.0.0.1 --port 4000
-```
+- **Python** (built-in): `python -m http.server 8000`
+- **Node.js** (http-server): `npx http-server -p 8000`
 
-Open http://127.0.0.1:4000 in your browser.
+Open http://localhost:8000 in your browser to view the site.
 
-If you prefer a lightweight file server for quick checks you can still use:
+## Deploy
 
-- Python: `python -m http.server 8000`
-- Node (http-server): `npx http-server -p 8000`
+This repository is configured for GitHub Pages. Push changes to the `main` branch, and the site will automatically deploy if GitHub Pages is enabled in the repository settings.
 
-Deploy:
+## Project Structure
 
-- This repository is configured for GitHub Pages. Push to the `main` branch and enable GitHub Pages in repository settings if not already enabled.
-
-Files added:
-
-- `index.html` — the placeholder landing page
-- `assets/styles.css` — simple styling
+- `index.html` — the main landing page
+- `assets/main.js` — JavaScript functionality
+- `assets/styles.css` — site styling
+- `assets/images/` — image assets
 - `README.md` — this file
 
-Next steps:
 
-- Add organization content, navigation, and pages.
-- Optionally add an automated CI/CD workflow to validate and deploy the site.
