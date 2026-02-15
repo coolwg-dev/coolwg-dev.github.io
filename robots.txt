@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: https://www.10botics.com/sitemap.xml
+Sitemap: https://coolwg-dev.github.io/sitemap.xml
