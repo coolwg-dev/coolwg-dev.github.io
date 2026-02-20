@@ -1,5 +1,6 @@
-// Set current year in footer
-document.getElementById('year').textContent = new Date().getFullYear();
+// Set current year in footer (only if element exists)
+const _yearEl = document.getElementById('year');
+if (_yearEl) _yearEl.textContent = new Date().getFullYear();
 
 // Intersection Observer for scroll animations
 const observerOptions = {

@@ -1,0 +1,20 @@
+{
+  "title": "coolwg-dev",
+  "tagline": "Construyendo soluciones digitales innovadoras",
+  "projects": {
+    "title": "Mis Proyectos",
+    "subtitle": "Explora mi portafolio de aplicaciones y plataformas de vanguardia"
+  },
+  "project": {
+    "10botics": { "description": "Una empresa educativa que ofrece cursos STEM a escuelas y empresas." },
+    "manimation": { "description": "Una plataforma de animación innovadora que da vida a la creatividad. Crea animaciones impresionantes con potentes herramientas." },
+    "hoppy": { "description": "Una plataforma educativa de IA que potencia la colaboración entre docentes, padres y niños." },
+    "fortune": { "description": "Experimenta el mundo místico de la adivinación a través de una plataforma digital interactiva. Obtén lecturas personalizadas e ideas." },
+    "faichun": { "description": "Genera un Fai Chun personalizado (una decoración tradicional del Año Nuevo chino) con tu nombre y compártelo con amigos y familia." }
+  },
+  "visit_project": "Ver proyecto →",
+  "github_button": "Visitar GitHub",
+  "footer": "© {{year}} coolwg-dev. Todos los derechos reservados.",
+  "linkedin": "LinkedIn",
+  "github": "GitHub"
+}

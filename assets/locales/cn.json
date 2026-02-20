@@ -1,0 +1,20 @@
+{
+  "title": "coolwg-dev",
+  "tagline": "构建创新的数字解决方案",
+  "projects": {
+    "title": "我的项目",
+    "subtitle": "探索我的前沿应用和平台"
+  },
+  "project": {
+    "10botics": { "description": "一家为学校和企业提供 STEM 课程的教育公司。" },
+    "manimation": { "description": "创新的动画平台，让创意栩栩如生。使用强大的工具创建令人惊叹的动画，并拥有无缝的工作流程。" },
+    "hoppy": { "description": "一个人工智能教育平台，促进教师、家长与孩子之间的协作。" },
+    "fortune": { "description": "通过交互式数字平台体验神秘的占卜世界。获取个性化解读与见解。" },
+    "faichun": { "description": "只需放入你的图片（无后端，不会泄露个人信息），即可生成带有你名字的个性化春联，并与朋友和家人分享。" }
+  },
+  "visit_project": "查看项目 →",
+  "github_button": "访问 GitHub",
+  "footer": "© {{year}} coolwg-dev。保留所有权利。",
+  "linkedin": "领英",
+  "github": "GitHub"
+}
