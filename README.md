@@ -24,5 +24,16 @@ This repository is configured for GitHub Pages. Push changes to the `main` branc
 - `assets/styles.css` — site styling
 - `assets/images/` — image assets
 - `README.md` — this file
+- `scripts/generate-sitemap.js` — helper to create `sitemap.xml` from HTML files
+
+## Generating sitemap.xml
+
+A small Node.js script is included to generate `sitemap.xml` automatically. Run it from the repository root:
+
+```bash
+node scripts/generate-sitemap.js
+```
+
+The script scans `.html` files in the project root (and subfolders), uses file modification times for `<lastmod>`, and writes `sitemap.xml` at the repo root.
 
 
