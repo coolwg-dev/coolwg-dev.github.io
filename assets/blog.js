@@ -83,12 +83,71 @@
         }
       }
 
-      // fallback: fetch the HTML file
-      const res = await fetch(post.path || post);
-      if(!res.ok) throw new Error('Failed to load post');
-      const html = await res.text();
-      content.innerHTML = html;
-      window.scrollTo({top:0, behavior:'smooth'});
+      // Try a set of candidate URLs (HTML or Markdown). This enables placing
+      // Markdown files in `assets/blog/` and having them rendered client-side
+      // without a static generation step.
+      async function tryFetchText(url){
+        try{
+          const res = await fetch(url);
+          if(!res.ok) return null;
+          const text = await res.text();
+          return {url, text, ok: true};
+        }catch(e){
+          return null;
+        }
+      }
+
+      function stripYAMLFrontMatter(s){
+        if(!s) return s;
+        if(s.startsWith('---')){
+          const idx = s.indexOf('\n---', 3);
+          if(idx !== -1) return s.slice(idx+4).trim();
+        }
+        return s;
+      }
+
+      const lang = window.__lang || (new URLSearchParams(location.search).get('lang')) || '';
+      const candidates = [];
+      if(post.path) candidates.push(post.path);
+      if(post.path && /\.html?$/i.test(post.path)) candidates.push(post.path.replace(/\.html?$/i, '.md'));
+      // Prefer MD in assets/blog relative to the blog page
+      if(post.slug){
+        if(lang) candidates.push('../assets/blog/' + post.slug + '.' + lang + '.md');
+        candidates.push('../assets/blog/' + post.slug + '.md');
+      }
+      // Also try a root-level assets path (in case the site is served from root)
+      if(post.slug){
+        if(lang) candidates.push('/assets/blog/' + post.slug + '.' + lang + '.md');
+        candidates.push('/assets/blog/' + post.slug + '.md');
+      }
+
+      let loaded = false;
+      for(const url of candidates){
+        if(!url) continue;
+        const result = await tryFetchText(url);
+        if(!result) continue;
+        const txt = result.text;
+        const isMarkdown = /\.md$/i.test(result.url) || /^---\n/.test(txt) || /(^|\n)#\s+/.test(txt);
+        if(isMarkdown && window.marked){
+          const body = stripYAMLFrontMatter(txt);
+          const parsed = window.marked.parse(body);
+          const safe = (window.DOMPurify && window.DOMPurify.sanitize) ? window.DOMPurify.sanitize(parsed) : parsed;
+          if(content) content.innerHTML = safe;
+          window.scrollTo({top:0, behavior:'smooth'});
+          loaded = true;
+          break;
+        } else {
+          // treat as pre-rendered HTML
+          if(content) content.innerHTML = txt;
+          window.scrollTo({top:0, behavior:'smooth'});
+          loaded = true;
+          break;
+        }
+      }
+
+      if(!loaded){
+        throw new Error('No post found in candidate locations');
+      }
     }catch(err){
       const errText = (window.i18nT && window.i18nT('blog.unable_load')) || '<p>Unable to load post.</p>';
       if(content) content.innerHTML = errText;
