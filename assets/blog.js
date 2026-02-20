@@ -15,7 +15,30 @@
 
   async function loadPosts(){
     try{
-      const posts = await fetchJSON('posts/posts.json');
+      let posts = null;
+      if(window.BLOG_POSTS && Array.isArray(window.BLOG_POSTS)){
+        posts = window.BLOG_POSTS;
+      } else {
+        // Try a conventional assets manifest first (recommended):
+        // /assets/blog/index.json
+        try{
+          posts = await fetchJSON('/assets/blog/index.json');
+        }catch(e){
+          // Fallback to legacy location if present (keeps backward compatibility)
+          try{
+            posts = await fetchJSON('posts/posts.json');
+          }catch(e2){
+            posts = null;
+          }
+        }
+      }
+
+      if(!posts || !Array.isArray(posts)){
+        const node = document.getElementById('posts-list');
+        if(node) node.textContent = (window.i18nT && window.i18nT('blog.list_error')) || 'Could not load posts.';
+        console.error('No posts index found');
+        return;
+      }
       renderList(posts);
       const params = new URLSearchParams(location.search);
       const slug = params.get('post');
@@ -53,7 +76,27 @@
   if(document.getElementById('post-content') && !document.getElementById('posts-list')){
     (async function(){
       try{
-        const posts = await fetchJSON('posts/posts.json');
+        let posts = null;
+        if(window.BLOG_POSTS && Array.isArray(window.BLOG_POSTS)){
+          posts = window.BLOG_POSTS;
+        } else {
+          try{
+            posts = await fetchJSON('/assets/blog/index.json');
+          }catch(e){
+            try{
+              posts = await fetchJSON('posts/posts.json');
+            }catch(e2){
+              posts = null;
+            }
+          }
+        }
+
+        if(!posts || !Array.isArray(posts)){
+          const content = document.getElementById('post-content');
+          if(content) content.innerHTML = '<p>Unable to load posts index.</p>';
+          return;
+        }
+
         const params = new URLSearchParams(location.search);
         const slug = params.get('post');
         const lang = params.get('lang') || (window.__lang) || localStorage.getItem('lang') || '';
@@ -64,6 +107,8 @@
         }
       }catch(err){
         console.error('Failed to load posts for post page', err);
+        const content = document.getElementById('post-content');
+        if(content) content.innerHTML = '<p>Unable to load posts index.</p>';
       }
     })();
   }
