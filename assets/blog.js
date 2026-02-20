@@ -21,10 +21,12 @@
       const slug = params.get('post');
       if(slug){
         const p = posts.find(x => x.slug===slug);
-        if(p) loadPost(p.path);
+        if(p) loadPost(p);
       }
     }catch(err){
-      document.getElementById('posts-list').textContent = 'Could not load posts.';
+      const msg = (window.i18nT && window.i18nT('blog.list_error')) || 'Could not load posts.';
+      const node = document.getElementById('posts-list');
+      if(node) node.textContent = msg;
       console.error(err);
     }
   }
@@ -38,24 +40,37 @@
       const localizedTitle = (window.i18nT && post.titleKey) ? window.i18nT(post.titleKey) : '';
       const titleText = localizedTitle || post.title || post.slug;
       const a = el('a',{href:'#', 'data-path': post.path}, titleText);
-      a.addEventListener('click', (e)=>{ e.preventDefault(); loadPost(post.path); history.replaceState(null,'', '?post='+post.slug); });
+      a.addEventListener('click', (e)=>{ e.preventDefault(); loadPost(post); history.replaceState(null,'', '?post='+post.slug); });
       item.appendChild(a);
       if(post.date) item.appendChild(el('div',{class:'post-date'}, post.date));
       container.appendChild(item);
     });
   }
 
-  async function loadPost(path){
+  async function loadPost(post){
     const content = document.getElementById('post-content');
-    content.innerHTML = 'Loading...';
+    const loadingText = (window.i18nT && window.i18nT('blog.loading')) || 'Loading...';
+    if(content) content.innerHTML = loadingText;
     try{
-      const res = await fetch(path);
+      // prefer localized post content if available via translation keys
+      if(post && post.contentKey && window.i18nT){
+        const localized = window.i18nT(post.contentKey);
+        if(localized && localized.trim()){
+          content.innerHTML = localized;
+          window.scrollTo({top:0, behavior:'smooth'});
+          return;
+        }
+      }
+
+      // fallback: fetch the HTML file
+      const res = await fetch(post.path || post);
       if(!res.ok) throw new Error('Failed to load post');
       const html = await res.text();
       content.innerHTML = html;
       window.scrollTo({top:0, behavior:'smooth'});
     }catch(err){
-      content.innerHTML = '<p>Unable to load post.</p>';
+      const errText = (window.i18nT && window.i18nT('blog.unable_load')) || '<p>Unable to load post.</p>';
+      if(content) content.innerHTML = errText;
       console.error(err);
     }
   }

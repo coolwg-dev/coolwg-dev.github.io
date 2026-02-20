@@ -17,4 +17,19 @@
   "footer": "© {{year}} coolwg-dev. All rights reserved.",
   "linkedin": "LinkedIn",
   "github": "GitHub"
+  ,
+  "blog": {
+    "title": "Blogs",
+    "subtitle": "Short posts and updates.",
+    "back": "← Back to home",
+    "loading": "Loading...",
+    "list_error": "Could not load posts.",
+    "unable_load": "<p>Unable to load post.</p>",
+    "posts": {
+      "first": {
+        "title": "First Post",
+        "html": "<article class=\"blog-post\">\n  <h2>First Post</h2>\n  <p><em>2026-02-20</em></p>\n  <p>Welcome to the new blog area — this is a sample post. You can add more posts as HTML files under <strong>blog/posts/</strong> and list them in <strong>blog/posts/posts.json</strong>.</p>\n  <p>Enjoy!</p>\n</article>"
+      }
+    }
+  }
 }

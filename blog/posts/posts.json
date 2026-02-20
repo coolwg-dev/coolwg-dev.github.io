@@ -2,6 +2,7 @@
   {
     "title": "First Post",
     "titleKey": "blog.posts.first.title",
+    "contentKey": "blog.posts.first.html",
     "path": "posts/first-post.html",
     "slug": "first-post",
     "date": "2026-02-20"

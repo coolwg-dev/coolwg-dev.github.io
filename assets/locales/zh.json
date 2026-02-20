@@ -17,4 +17,19 @@
   "footer": "© {{year}} coolwg-dev。保留所有權利。",
   "linkedin": "領英",
   "github": "GitHub"
+  ,
+  "blog": {
+    "title": "部落格",
+    "subtitle": "短篇與更新。",
+    "back": "← 返回首頁",
+    "loading": "載入中...",
+    "list_error": "無法載入文章。",
+    "unable_load": "<p>無法載入文章。</p>",
+    "posts": {
+      "first": {
+        "title": "第一篇文章",
+        "html": "<article class=\"blog-post\">\n  <h2>第一篇文章</h2>\n  <p><em>2026-02-20</em></p>\n  <p>歡迎來到新的部落格區域 — 這是一篇示例文章。你可以將更多文章以 HTML 檔放在 <strong>blog/posts/</strong>，並在 <strong>blog/posts/posts.json</strong> 中列出。</p>\n  <p>享受！</p>\n</article>"
+      }
+    }
+  }
 }
