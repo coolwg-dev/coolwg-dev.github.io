@@ -100,4 +100,25 @@
     loadPosts();
   }
 
+  // Re-run loading when translations become available so titles/content update
+  try{
+    document.addEventListener('i18n:ready', function(){
+      if(document.getElementById('posts-list')){
+        loadPosts();
+      }
+      if(document.getElementById('post-content') && !document.getElementById('posts-list')){
+        const params = new URLSearchParams(location.search);
+        const slug = params.get('post');
+        const lang = params.get('lang') || window.__lang || localStorage.getItem('lang') || '';
+        if(lang) window.__lang = lang;
+        if(slug){
+          fetchJSON('posts/posts.json').then(posts => {
+            const p = posts.find(x => x.slug===slug);
+            if(p) loadPost(p);
+          }).catch(err => console.error(err));
+        }
+      }
+    });
+  }catch(e){ /* ignore environments without CustomEvent support */ }
+
 })();

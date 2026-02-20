@@ -79,6 +79,11 @@
         const newUrl = location.pathname + (params.toString() ? ('?' + params.toString()) : '') + location.hash;
         history.replaceState(null, '', newUrl);
       }catch(e){ /* ignore */ }
+      // notify other scripts that translations are ready
+      try{
+        const ev = new CustomEvent('i18n:ready', { detail: { lang } });
+        document.dispatchEvent(ev);
+      }catch(e){ /* ignore */ }
     }).catch(err => {
       console.warn('i18n: failed to load', lang, err);
     });
