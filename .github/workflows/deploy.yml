@@ -17,8 +17,13 @@ jobs:
           node-version: 18
       - run: npm ci
       - run: npm run build
+      - name: Disable Jekyll on published site
+        run: |
+          if (!(Test-Path docs)) { exit 1 }
+          New-Item -Path docs\.nojekyll -ItemType File -Force
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
+          publish_branch: gh-pages
