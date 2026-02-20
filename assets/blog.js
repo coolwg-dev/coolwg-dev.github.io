@@ -34,7 +34,10 @@
     container.innerHTML = '';
     posts.forEach(post=>{
       const item = el('div',{class:'post-item'});
-      const a = el('a',{href:'#', 'data-path': post.path}, post.title);
+      // prefer localized title if available
+      const localizedTitle = (window.i18nT && post.titleKey) ? window.i18nT(post.titleKey) : '';
+      const titleText = localizedTitle || post.title || post.slug;
+      const a = el('a',{href:'#', 'data-path': post.path}, titleText);
       a.addEventListener('click', (e)=>{ e.preventDefault(); loadPost(post.path); history.replaceState(null,'', '?post='+post.slug); });
       item.appendChild(a);
       if(post.date) item.appendChild(el('div',{class:'post-date'}, post.date));

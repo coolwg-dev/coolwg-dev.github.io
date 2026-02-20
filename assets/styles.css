@@ -134,6 +134,34 @@ header h1::after {
   animation: shimmer 3s ease-in-out infinite;
 }
 
+/* Language selector positioned at upper-right, styled like site buttons */
+.lang {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 5;
+}
+
+.lang-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: var(--accent);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.25);
+  cursor: pointer;
+  min-width: 120px;
+}
+
+.lang-select:focus {
+  outline: none;
+  box-shadow: 0 8px 22px rgba(59, 130, 246, 0.35);
+}
+
 .tagline {
   color: var(--muted);
   margin-top: 12px;
@@ -622,6 +650,17 @@ footer {
   .contact-links {
     flex-direction: column;
     gap: 12px;
+  }
+
+  .lang {
+    position: static;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+
+  .lang-select {
+    min-width: auto;
   }
 }
 

@@ -51,6 +51,13 @@
     if(translations && translations.title){
       document.title = translations.title;
     }
+    // expose translations and helper for other scripts (e.g. blog loader)
+    try{
+      window.__translations = translations || {};
+      window.i18nT = function(key){ return getNested(window.__translations || {}, key) || ''; };
+    }catch(e){
+      // ignore if environment is restrictive
+    }
   }
 
   function setLang(lang){
