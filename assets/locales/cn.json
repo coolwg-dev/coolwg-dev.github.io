@@ -1,0 +1,34 @@
+{
+  "title": "coolwg-dev",
+  "tagline": "构建创新的数字解决方案",
+  "projects": {
+    "title": "我的项目",
+    "subtitle": "探索我的前沿应用和平台"
+  },
+  "project": {
+    "10botics": { "description": "一家为学校和企业提供 STEM 课程的教育公司。" },
+    "manimation": { "description": "创新的动画平台，让创意栩栩如生。使用强大的工具创建令人惊叹的动画，并拥有无缝的工作流程。" },
+    "hoppy": { "description": "一个人工智能教育平台，促进教师、家长与孩子之间的协作。" },
+    "fortune": { "description": "通过交互式数字平台体验神秘的占卜世界。获取个性化解读与见解。" },
+    "faichun": { "description": "只需放入你的图片（无后端，不会泄露个人信息），即可生成带有你名字的个性化春联，并与朋友和家人分享。" }
+  },
+  "visit_project": "查看项目 →",
+  "github_button": "访问 GitHub",
+  "footer": "© {{year}} coolwg-dev。保留所有权利。",
+  "linkedin": "领英",
+  "github": "GitHub",
+  "blog": {
+    "title": "博客",
+    "subtitle": "短篇文章与更新。",
+    "back": "← 返回主页",
+    "loading": "加载中...",
+    "list_error": "无法加载文章。",
+    "unable_load": "<p>无法加载文章。</p>",
+    "posts": {
+      "first": {
+        "title": "第一篇文章",
+        "html": "<article class=\"blog-post\">\n  <h2>第一篇文章</h2>\n  <p><em>2026-02-20</em></p>\n  <p>欢迎来到新的博客区域 — 这是一个示例文章。你可以把更多文章以 HTML 文件放在 <strong>blog/posts/</strong> 下，并在 <strong>blog/posts/posts.json</strong> 中列出。</p>\n  <p>享受吧！</p>\n</article>"
+      }
+    }
+  }
+}
