@@ -1,0 +1,20 @@
+---
+const { title, description, keywords, ogImage } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="zh-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title ?? 'Site'}</title>
+    {description ? <meta name="description" content={description} /> : null}
+    {keywords ? <meta name="keywords" content={keywords} /> : null}
+    {ogImage ? <meta property="og:image" content={ogImage} /> : null}
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <slot />
+    <script src="/assets/main.js" is:inline></script>
+  </body>
+</html>

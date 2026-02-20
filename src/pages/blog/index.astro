@@ -1,37 +1,155 @@
 ---
----
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Blog - coolwg-dev</title>
-  <link rel="stylesheet" href="/assets/styles.css">
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-</head>
-<body>
-  <main class="container">
-    <div class="lang">
-      <label for="lang-select" class="visually-hidden">Language</label>
-      <select id="lang-select" class="lang-select" aria-label="Language selector">
-        <option value="en">English</option>
-        <option value="es">Español</option>
-        <option value="zh">中文</option>
-      </select>
-    </div>
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { generateExcerpt } from '../../utils/excerpt';
 
-    <header class="fade-in">
-      <h1 data-i18n="blog.title">Blogs</h1>
-      <p class="section-subtitle" data-i18n="blog.subtitle">Short posts and updates.</p>
+// Import background image (use an existing image as a safe default)
+import blogHeroBackground from '../../assets/images/10botics.png';
+
+const allPosts = await getCollection('blog');
+
+const sortedPosts = allPosts
+  .map(post => ({
+    ...post,
+    data: {
+      ...post.data,
+      excerpt: post.data.excerpt || generateExcerpt(String(post.body), 200)
+    }
+  }))
+  .sort((a, b) => new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime());
+
+const categories = [...new Set(allPosts.map(post => post.data.category).filter(Boolean))];
+
+const pageTitle = "博客 - 10教育活動回顧與教育資訊";
+const pageDescription = `瀏覽10教育的最新文章與活動回顧，包含教學與教育資源。共${allPosts.length}篇文章，持續更新。`;
+const pageKeywords = "10教育博客, 教育文章, STEM 教學, 活動回顧";
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  keywords={pageKeywords}
+  ogImage="/assets/images/og/blog-overview.jpg"
+>
+  <main class="news-listing">
+    <header class="relative text-white py-16 overflow-hidden">
+      <div class="absolute inset-0">
+        <Image src={blogHeroBackground} alt="博客背景" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+      </div>
+      <div class="relative container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-5xl font-bold mb-6">博客</h1>
+          <p class="text-xl opacity-90 mb-8">瀏覽10教育的文章、教案與活動回顧</p>
+          <div class="text-sm opacity-80">共 {allPosts.length} 篇文章</div>
+        </div>
+      </div>
     </header>
 
-    <section id="posts-list" class="posts-list" aria-live="polite"></section>
+    <section class="py-8 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="flex flex-wrap justify-center gap-4">
+            <button class="category-filter active bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors" data-category="all">所有文章</button>
+            {categories.map((category) => (
+              <button class="category-filter bg-white text-gray-700 px-6 py-2 rounded-full border border-gray-300 hover:bg-blue-50 hover:border-blue-300 transition-colors" data-category={category}>{category}</button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <p style="margin-top:24px;"><a href="/">← Back to home</a></p>
+    <section class="py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="news-grid">
+            {sortedPosts.map((post) => (
+              <article class="news-card bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden" data-category={post.data.category}>
+                {post.data.featuredImage && (
+                  <div class="aspect-video bg-gray-200 overflow-hidden">
+                    {typeof post.data.featuredImage === 'string' ? (
+                      <img src={post.data.featuredImage} alt={post.data.title} class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width="400" height="225" />
+                    ) : (
+                      <Image src={post.data.featuredImage} alt={post.data.title} class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" width={400} height={225} />
+                    )}
+                  </div>
+                )}
+
+                <div class="p-6">
+                  <div class="mb-3">
+                    <span class="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-3 py-1 rounded-full">{post.data.category}</span>
+                  </div>
+
+                  <h3 class="text-xl font-bold mb-3 text-gray-800 line-clamp-2">
+                    <a href={`/blog/${post.slug}`} class="hover:text-blue-600 transition-colors">{post.data.title}</a>
+                  </h3>
+
+                  <p class="text-gray-600 text-sm line-clamp-3 mb-4">{post.data.excerpt}</p>
+
+                  <div class="flex items-center justify-between text-xs text-gray-500 mb-4">
+                    <div class="flex items-center space-x-4">
+                      {post.data.publishDate && (<span>📅 {new Date(post.data.publishDate).toLocaleDateString('zh-HK')}</span>)}
+                      {post.data.school && (<span>🏫 {post.data.school}</span>)}
+                    </div>
+                  </div>
+
+                  <div class="flex flex-wrap gap-1 mb-4">
+                    {post.data.tags?.slice(0, 2).map((tag) => (
+                      <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">{tag}</span>
+                    ))}
+                    {post.data.tags && post.data.tags.length > 2 && (
+                      <span class="text-gray-500 text-xs px-2 py-1">+{post.data.tags.length - 2}</span>
+                    )}
+                  </div>
+
+                  <a href={`/blog/${post.slug}`} class="inline-block w-full text-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors text-sm font-medium">閱讀全文 →</a>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div id="no-results" class="hidden text-center py-12">
+            <div class="text-gray-500 text-lg">沒有找到符合條件的文章</div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+</Layout>
 
-  <script src="/assets/main.js" is:inline></script>
-  <script src="/assets/i18n.js" is:inline></script>
-  <script src="/assets/blog.js" is:inline></script>
-</body>
-</html>
+<script>
+  const categoryFilters = document.querySelectorAll('.category-filter');
+  const newsCards = document.querySelectorAll('.news-card');
+  const noResults = document.getElementById('no-results');
+
+  categoryFilters.forEach(filter => {
+    filter.addEventListener('click', () => {
+      const category = filter.dataset.category;
+      categoryFilters.forEach(f => f.classList.remove('active', 'bg-blue-600', 'text-white'));
+      categoryFilters.forEach(f => f.classList.add('bg-white', 'text-gray-700'));
+      filter.classList.add('active', 'bg-blue-600', 'text-white');
+      filter.classList.remove('bg-white', 'text-gray-700');
+      let visibleCount = 0;
+      newsCards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      if (visibleCount === 0) {
+        noResults.classList.remove('hidden');
+      } else {
+        noResults.classList.add('hidden');
+      }
+    });
+  });
+</script>
+
+<style>
+  .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .aspect-video { aspect-ratio: 16 / 9; }
+</style>
