@@ -39,11 +39,33 @@
       // prefer localized title if available
       const localizedTitle = (window.i18nT && post.titleKey) ? window.i18nT(post.titleKey) : '';
       const titleText = localizedTitle || post.title || post.slug;
-      const a = el('a',{href: 'post.html?post='+encodeURIComponent(post.slug), 'data-path': post.path}, titleText);
+      // include current lang in the link so post pages keep the selected language
+      const currentLang = window.__lang || (new URLSearchParams(location.search).get('lang')) || localStorage.getItem('lang') || '';
+      const langParam = currentLang ? '&lang=' + encodeURIComponent(currentLang) : '';
+      const a = el('a',{href: 'post.html?post='+encodeURIComponent(post.slug) + langParam, 'data-path': post.path}, titleText);
       item.appendChild(a);
       if(post.date) item.appendChild(el('div',{class:'post-date'}, post.date));
       container.appendChild(item);
     });
+  }
+
+  // If we're on a dedicated post page (post.html), load the requested post
+  if(document.getElementById('post-content') && !document.getElementById('posts-list')){
+    (async function(){
+      try{
+        const posts = await fetchJSON('posts/posts.json');
+        const params = new URLSearchParams(location.search);
+        const slug = params.get('post');
+        const lang = params.get('lang') || (window.__lang) || localStorage.getItem('lang') || '';
+        if(lang) window.__lang = lang;
+        if(slug){
+          const p = posts.find(x => x.slug===slug);
+          if(p) loadPost(p);
+        }
+      }catch(err){
+        console.error('Failed to load posts for post page', err);
+      }
+    })();
   }
 
   async function loadPost(post){

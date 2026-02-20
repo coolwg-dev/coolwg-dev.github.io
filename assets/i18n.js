@@ -3,6 +3,10 @@
   const defaultLang = 'en';
   const select = document.getElementById('lang-select');
 
+  function getLangFromUrl(){
+    try{ return new URLSearchParams(location.search).get('lang') || null; }catch(e){ return null; }
+  }
+
   function getSavedLang(){
     return localStorage.getItem('lang') || null;
   }
@@ -65,7 +69,16 @@
       translate(translations);
       document.documentElement.lang = lang;
       saveLang(lang);
+      window.__lang = lang;
+      // reflect in select
       if(select) select.value = lang;
+      // update URL param without reloading
+      try{
+        const params = new URLSearchParams(location.search);
+        params.set('lang', lang);
+        const newUrl = location.pathname + (params.toString() ? ('?' + params.toString()) : '') + location.hash;
+        history.replaceState(null, '', newUrl);
+      }catch(e){ /* ignore */ }
     }).catch(err => {
       console.warn('i18n: failed to load', lang, err);
     });
@@ -73,8 +86,9 @@
 
   // init
   const saved = getSavedLang();
+  const urlLang = getLangFromUrl();
   const browser = (navigator.languages && navigator.languages[0]) || navigator.language || defaultLang;
-  const start = saved || browser.split('-')[0] || defaultLang;
+  const start = urlLang || saved || browser.split('-')[0] || defaultLang;
 
   if(select){
     select.addEventListener('change', (e)=> setLang(e.target.value));
