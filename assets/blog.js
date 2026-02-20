@@ -39,8 +39,7 @@
       // prefer localized title if available
       const localizedTitle = (window.i18nT && post.titleKey) ? window.i18nT(post.titleKey) : '';
       const titleText = localizedTitle || post.title || post.slug;
-      const a = el('a',{href:'#', 'data-path': post.path}, titleText);
-      a.addEventListener('click', (e)=>{ e.preventDefault(); loadPost(post); history.replaceState(null,'', '?post='+post.slug); });
+      const a = el('a',{href: 'post.html?post='+encodeURIComponent(post.slug), 'data-path': post.path}, titleText);
       item.appendChild(a);
       if(post.date) item.appendChild(el('div',{class:'post-date'}, post.date));
       container.appendChild(item);
