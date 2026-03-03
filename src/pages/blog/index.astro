@@ -118,32 +118,38 @@ const pageKeywords = "10教育博客, 教育文章, STEM 教學, 活動回顧";
   </main>
 </Layout>
 
-<script>
-  const categoryFilters = document.querySelectorAll('.category-filter');
-  const newsCards = document.querySelectorAll('.news-card');
-  const noResults = document.getElementById('no-results');
+<script type="module">
+  document.addEventListener('DOMContentLoaded', () => {
+    const categoryFilters = document.querySelectorAll('.category-filter');
+    const newsCards = document.querySelectorAll('.news-card');
+    const noResults = document.getElementById('no-results');
 
-  categoryFilters.forEach(filter => {
-    filter.addEventListener('click', () => {
-      const category = filter.dataset.category;
-      categoryFilters.forEach(f => f.classList.remove('active', 'bg-blue-600', 'text-white'));
-      categoryFilters.forEach(f => f.classList.add('bg-white', 'text-gray-700'));
-      filter.classList.add('active', 'bg-blue-600', 'text-white');
-      filter.classList.remove('bg-white', 'text-gray-700');
-      let visibleCount = 0;
-      newsCards.forEach(card => {
-        if (category === 'all' || card.dataset.category === category) {
-          card.style.display = 'block';
-          visibleCount++;
-        } else {
-          card.style.display = 'none';
+    if (!categoryFilters || categoryFilters.length === 0) return;
+
+    categoryFilters.forEach(filter => {
+      filter.addEventListener('click', () => {
+        const category = filter.dataset.category;
+        categoryFilters.forEach(f => f.classList.remove('active', 'bg-blue-600', 'text-white'));
+        categoryFilters.forEach(f => f.classList.add('bg-white', 'text-gray-700'));
+        filter.classList.add('active', 'bg-blue-600', 'text-white');
+        filter.classList.remove('bg-white', 'text-gray-700');
+        let visibleCount = 0;
+        newsCards.forEach(card => {
+          if (category === 'all' || card.dataset.category === category) {
+            card.style.display = 'block';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+        if (noResults) {
+          if (visibleCount === 0) {
+            noResults.classList.remove('hidden');
+          } else {
+            noResults.classList.add('hidden');
+          }
         }
       });
-      if (visibleCount === 0) {
-        noResults.classList.remove('hidden');
-      } else {
-        noResults.classList.add('hidden');
-      }
     });
   });
 </script>
