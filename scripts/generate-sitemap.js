@@ -4,7 +4,7 @@ const path = require('path');
 
 // Configuration
 const SITE_ROOT = 'https://coolwg-dev.github.io/';
-const ROOT_DIR = process.cwd();
+const ROOT_DIR = path.join(process.cwd(), 'docs');
 const OUTPUT = path.join(ROOT_DIR, 'sitemap.xml');
 
 function isHtml(file) {
