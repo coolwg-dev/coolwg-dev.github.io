@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Cyber Security Roadmap: From Beginner to Practitioner</title><meta name="description" content="A structured, practical roadmap for learning cyber security, from fundamentals to specialization."><meta name="keywords" content="cyber security, roadmap, career, infosec"><meta property="og:image" content="/assets/blog/choosing-frontend-cover.jpg"><link rel="stylesheet" href="/assets/styles.css"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"></head> <body>  <main class="container mx-auto px-4 py-12 prose max-w-3xl"> <header class="mb-8"> <h1 class="text-4xl font-bold mb-4">Cyber Security Roadmap: From Beginner to Practitioner</h1> <p class="text-gray-500 text-sm">
+📅 2026-03-31 </p> </header> <article class="prose prose-slate max-w-none"> 
+<h2>Part 1 — Foundations and Mindset</h2>
+
+Cyber security is ultimately about managing risk in complex, socio-technical systems rather than chasing tools or buzzwords. At its core, the discipline asks: what are we protecting, from whom, and what failure modes are acceptable given our constraints? Foundational frameworks such as the NIST Cybersecurity Framework (CSF 1.1) and ISO/IEC 27001 formalize this idea through functions like Identify, Protect, Detect, Respond, and Recover. As you design your learning roadmap, anchor everything you study to these core questions: assets, threats, vulnerabilities, impact, and controls. 
+
+Equally important is the ethical dimension. Responsible practice requires explicit adherence to legal and ethical guidelines such as the ACM Code of Ethics and local computer misuse laws. A serious roadmap always includes learning how to obtain proper authorization, document testing scopes, and communicate findings clearly to non-technical stakeholders. From the beginning, cultivate habits of writing clear notes, creating reproducible setups, and treating security as a way of improving systems—not “breaking things for fun.”
+
+<h2>Part 2 — Core Technical Fundamentals</h2>
+
+Before specializing, you need a solid technical base. These fundamentals are not optional; they determine how far you can eventually go.
+
+Networking: Learn how the internet actually works. Focus on the TCP/IP stack, routing, DNS, HTTP/HTTPS, and TLS. Use tools like Wireshark to inspect packets and `curl` or browser devtools to observe HTTP exchanges. RFC 793 (TCP) and RFC 7540 (HTTP/2) are classic references; MDN is an excellent practical companion.
+
+Operating systems: Understand how modern OSes manage processes, memory, users, and permissions. Practice with Linux and Windows, since both appear in real environments. Learn about system calls, file permissions, privilege boundaries, logging, and basic hardening (e.g., SSH configuration, firewall rules).
+
+Programming and scripting: At minimum, become comfortable with one scripting language (commonly Python or Bash) for automation and one general-purpose language (such as Python, Go, or JavaScript) to read and reason about application code. Learn how vulnerabilities like injection or insecure deserialization appear in real code; OWASP Top 10 and the CWE list curated by MITRE provide concrete examples.
+
+Web and application basics: Most modern attacks target web apps and APIs. Study how browsers enforce the same-origin policy, how cookies and sessions work, and how authentication and authorization are typically implemented. MDN’s web security documentation and the OWASP Cheat Sheet Series are good guides here.
+
+<h2>Part 3 — Security Domains and Roles</h2>
+
+Cyber security is broad. Clarifying the main domains helps you design a roadmap aligned with the roles you care about.
+
+Blue team (defensive): Focuses on prevention, detection, and incident response. Key areas include log analysis, SIEM usage, endpoint protection, vulnerability management, and security operations center (SOC) workflows. NIST SP 800-61 (Computer Security Incident Handling Guide) is a canonical reference for incident response.
+
+Red team (offensive): Emphasizes offensive techniques—reconnaissance, exploitation, post-exploitation, and reporting. Skills include network and web penetration testing, phishing simulations, and social engineering. The MITRE ATT&amp;CK framework is widely used to structure and communicate offensive techniques.
+
+Purple team: Sits between blue and red, integrating offensive findings into improved detection and response. This role requires understanding both attacker techniques and defensive tooling, and focuses on collaboration and realistic simulation of threats.
+
+GRC and security architecture: Governance, risk, and compliance roles map controls to standards like NIST SP 800-53, CIS Controls, and ISO 27001. Architects translate business and threat models into concrete technical designs (network segmentation, identity and access management patterns, key management, etc.).
+
+Your roadmap does not have to commit to a single track immediately. However, it helps to keep a tentative preference (e.g., blue vs. red vs. GRC) so you can emphasize relevant tools and labs as you progress.
+
+<h2>Part 4 — Phase-Based Roadmap</h2>
+
+Below is a practical, phase-oriented roadmap. Timelines are approximate; adjust based on your available time and prior experience.
+
+<h3>Phase 0–3 months: Orientation and fundamentals</h3>
+<ul>
+<li>Learn basic networking (OSI vs TCP/IP, IP addressing, ports) and practice with simple labs using Wireshark and <code>ping</code>, <code>traceroute</code>, <code>netstat</code>.</li>
+<li>Get comfortable with Linux command line: file operations, permissions, processes, and basic shell scripting.</li>
+<li>Choose one scripting language (typically Python) and complete beginner-level programming exercises focused on file I/O, HTTP requests, and simple automation.</li>
+<li>Read a high-level introduction such as the freely available “NIST CSF” documents to understand core concepts of Identify–Protect–Detect–Respond–Recover.</li>
+</ul>
+
+<h3>Phase 3–9 months: Practical security skills</h3>
+<ul>
+<li>Study common vulnerabilities via OWASP Top 10 (e.g., injection, broken access control, insecure design) and reproduce them using deliberately vulnerable apps like OWASP Juice Shop or DVWA.</li>
+<li>Learn basic cryptography concepts: symmetric vs asymmetric encryption, hashing, digital signatures, key exchange. Focus on real-world protocols like TLS and standards such as NIST FIPS 186.</li>
+<li>For a blue-team leaning: learn log analysis and detection basics using open-source tools (e.g., the Elastic Stack or Wazuh). Practice building simple detection rules and incident timelines.</li>
+<li>For a red-team leaning: practice enumeration and exploitation using labs on platforms like Hack The Box, TryHackMe, or OverTheWire. Learn how to structure professional penetration test reports.</li>
+</ul>
+
+<h3>Phase 9–18 months: Specialization and depth</h3>
+<ul>
+<li>Choose a primary track (blue, red, GRC/architecture, or cloud security) and align your lab work, reading, and side projects accordingly.</li>
+<li>For cloud security, study provider-specific security models (e.g., AWS Well-Architected Framework, Azure Security Benchmark, Google Cloud security docs) and practice least-privilege IAM design.</li>
+<li>Contribute to open-source tools or write blog posts documenting your lab work; this both solidifies your understanding and creates a public portfolio.</li>
+<li>Prepare for one foundational certification that aligns with your stage, such as CompTIA Security+ (SY0-701) for broad fundamentals, or vendor-neutral cloud security courses if you are cloud-focused.</li>
+</ul>
+
+<h3>Phase 18+ months: Advanced topics and leadership</h3>
+<ul>
+<li>Explore advanced domains like threat hunting, malware analysis, reverse engineering, or secure software design depending on your interests.</li>
+<li>Learn to design and review architectures end-to-end, using threat modeling techniques such as STRIDE or PASTA to reason about risks.</li>
+<li>Mentor newcomers, review code or configurations, and participate in community events (local OWASP chapters, BSides conferences). Teaching is one of the fastest ways to deepen expertise.</li>
+</ul>
+
+<h2>Part 5 — Practice, Labs, and Portfolio</h2>
+
+Theory without practice does not lead to security competence. Design a lab program where you consistently apply what you are learning.
+
+Local labs: Use virtualization tools like VirtualBox or Proxmox to build small lab environments with multiple VMs (e.g., a vulnerable web server, a logging box, and a “client” machine). Practice both attacking and defending: scanning, exploitation, patching, and monitoring.
+
+Online platforms: Structured platforms like TryHackMe, Hack The Box, OverTheWire, and OWASP Juice Shop offer guided exercises that map well to real-world concepts. Track your progress over time and reflect on what each box teaches you.
+
+Portfolio: Maintain a log of your exercises, findings, and lessons learned. This may be a blog, a GitHub repository with lab notes, or a private knowledge base. When you reference external guidance (e.g., NIST SP 800-61 for incident handling, or OWASP guidance for web vulnerabilities), link or cite it explicitly so others can follow your reasoning.
+
+<h2>Part 6 — Certifications and Career Strategy</h2>
+
+Certifications are not a substitute for hands-on skill, but they can help structure your learning and signal competence.
+
+Entry-level: CompTIA Security+ and vendor-specific entry certifications (e.g., AWS Certified Cloud Practitioner with a security focus) complement the early phases of this roadmap.
+
+Intermediate: For blue-team roles, consider certifications aligned with incident response and monitoring (e.g., GIAC GCIA/GCED, where budget allows). For red-team roles, practice-oriented certifications like Offensive Security Certified Professional (OSCP) or eLearnSecurity eJPT/eCPPT are widely recognized.
+
+Advanced: Senior roles often pair experience with higher-level certifications such as CISSP or CISM, which emphasize governance and architecture. These make sense only once you have several years of practical work behind you.
+
+Job search strategy: Align your portfolio, resume, and interview preparation with the roles you target. For example, an aspiring SOC analyst should highlight log analysis labs, incident simulations, and familiarity with frameworks like MITRE ATT&amp;CK; an aspiring penetration tester should emphasize methodology, responsible disclosure, and clear technical writing.
+
+<h2>Conclusion</h2>
+
+A cyber security roadmap works best when it is concrete, evidence-informed, and adapted to your context. By grounding your learning in established frameworks such as NIST CSF, OWASP Top 10, and MITRE ATT&amp;CK; investing in fundamentals like networking, operating systems, and programming; and building a consistent lab and portfolio practice, you can progress from curious beginner to trusted practitioner. Revisit your roadmap periodically as your interests, job market conditions, and the threat landscape evolve. The goal is not to “finish” security, but to build a career-long habit of structured, ethical learning.
+ </article> <p class="mt-12"> <a href="/blog" class="text-blue-600 hover:text-blue-800">
+← 返回博客列表</a> </p> </main>  </body></html>
