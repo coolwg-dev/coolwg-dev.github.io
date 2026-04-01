@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Comandos básicos de Linux: una guía práctica</title>
+    <meta
+      name="description"
+      content="Aprende los comandos esenciales de Linux para navegar, gestionar archivos y revisar el sistema de forma segura."
+    />
+    <meta
+      name="keywords"
+      content="linux, comandos, terminal, shell, principiante"
+    />
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <main class="container mx-auto px-4 py-12 prose max-w-3xl">
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-4">Comandos básicos de Linux: una guía práctica</h1>
+        <p class="text-gray-500 text-sm">
+📅 2026-04-01
+        </p>
+      </header>
+      <article class="prose prose-slate max-w-none">
+        <h2>Por qué aprender comandos simples de Linux</h2>
+        <p>
+          Muchos flujos de trabajo de desarrollo y datos terminan pasando por un
+          sistema Linux: servidores en la nube, contenedores, WSL en Windows o
+          una máquina remota a la que te conectas con <code>ssh</code>. Sentirte
+          cómodo con un pequeño conjunto de comandos fiables te hace más rápido,
+          más seguro y menos dependiente de herramientas gráficas.
+        </p>
+        <p>
+          Esta guía se centra en un subconjunto pragmático de comandos que
+          realmente vas a usar. El objetivo no es conocer todas las opciones,
+          sino construir un modelo mental de cómo la terminal ve archivos,
+          procesos y texto.
+        </p>
+
+        <h2>Familiarizarse con la terminal</h2>
+        <p>
+          Cuando abres una terminal, normalmente aterrizas en tu directorio
+          personal. Empieza aprendiendo a ver dónde estás y qué hay a tu
+          alrededor.
+        </p>
+        <ul>
+          <li>
+            <code>pwd</code> – muestra el directorio de trabajo actual. Indica
+            la ruta absoluta de tu ubicación.
+          </li>
+          <li>
+            <code>ls</code> – lista los archivos del directorio actual. Usa
+            <code>ls -l</code> para ver detalles y <code>ls -a</code> para
+            incluir archivos ocultos.
+          </li>
+          <li>
+            <code>cd ruta/</code> – cambia de directorio. Usa
+            <code>cd ..</code> para subir un nivel y <code>cd ~</code> para
+            volver a tu carpeta personal.
+          </li>
+          <li>
+            <code>clear</code> – limpia la pantalla de la terminal sin cambiar
+            de ubicación.
+          </li>
+        </ul>
+        <p>
+          Un buen hábito es ejecutar <code>pwd</code> y <code>ls</code> antes
+          de lanzar comandos que cambian o eliminan archivos, solo para
+          confirmar que estás en el directorio correcto.
+        </p>
+
+        <h2>Trabajar con archivos y directorios</h2>
+        <p>
+          Gran parte del trabajo diario consiste en crear, copiar, mover e
+          inspeccionar archivos y carpetas.
+        </p>
+        <ul>
+          <li>
+            <code>mkdir mi-carpeta</code> – crea un nuevo directorio.
+          </li>
+          <li>
+            <code>rmdir carpeta-vacia</code> – elimina un directorio vacío.
+          </li>
+          <li>
+            <code>cp origen.txt destino.txt</code> – copia un archivo. Usa
+            <code>cp -r src/ dest/</code> para directorios.
+          </li>
+          <li>
+            <code>mv antiguo.txt nuevo.txt</code> – mueve o renombra un
+            archivo.
+          </li>
+          <li>
+            <code>rm archivo.txt</code> – elimina un archivo.
+          </li>
+        </ul>
+        <p>
+          Ten especial cuidado con el borrado recursivo:
+          <code>rm -rf</code> elimina directorios y su contenido sin preguntar.
+          Como principiante, evita ejecutar <code>rm -rf</code> sobre rutas de
+          las que no estés completamente seguro. Prefiere inspeccionar con
+          <code>ls</code> y borrar partes más pequeñas primero.
+        </p>
+        <p>
+          Para revisar rápidamente archivos de texto:
+        </p>
+        <ul>
+          <li>
+            <code>cat archivo.txt</code> – imprime todo el archivo en la
+            terminal.
+          </li>
+          <li>
+            <code>less archivo.txt</code> – abre un visor desplazable. Usa las
+            flechas para moverte y <code>q</code> para salir.
+          </li>
+          <li>
+            <code>head -n 20 archivo.txt</code> – muestra las primeras 20
+            líneas.
+          </li>
+          <li>
+            <code>tail -n 20 archivo.txt</code> – muestra las últimas 20
+            líneas.
+          </li>
+        </ul>
+
+        <h2>Inspeccionar el sistema y los procesos</h2>
+        <p>
+          A menudo necesitas responder preguntas como “¿qué está ejecutándose?”
+          o “¿qué está usando espacio en disco?”. Estos comandos te dan una
+          vista rápida.
+        </p>
+        <ul>
+          <li>
+            <code>whoami</code> – muestra el usuario actual.
+          </li>
+          <li>
+            <code>uname -a</code> – imprime información básica del sistema
+            (kernel y arquitectura).
+          </li>
+          <li>
+            <code>df -h</code> – muestra el uso de disco por sistema de archivos
+            en unidades legibles.
+          </li>
+          <li>
+            <code>free -h</code> – muestra el uso de memoria (RAM).
+          </li>
+          <li>
+            <code>ps aux</code> – lista los procesos en ejecución con detalle.
+          </li>
+          <li>
+            <code>top</code> o <code>htop</code> – vista interactiva de
+            procesos y recursos.
+          </li>
+          <li>
+            <code>kill PID</code> – envía una señal a un proceso por su ID
+            numérico (que puedes obtener con <code>ps</code> o
+            <code>top</code>).
+          </li>
+        </ul>
+        <p>
+          Durante el aprendizaje, practica observar procesos más que matarlos
+          agresivamente. En sistemas compartidos o de producción, coordina con
+          otras personas antes de detener servicios de larga ejecución.
+        </p>
+
+        <h2>Encontrar cosas y leer la ayuda</h2>
+        <p>
+          Una vez que sabes moverte, el siguiente paso es encontrar archivos y
+          entender qué hace cada comando.
+        </p>
+        <ul>
+          <li>
+            <code>find . -name "patrón"</code> – busca archivos debajo del
+            directorio actual. Por ejemplo,
+            <code>find . -name "*.log"</code>.
+          </li>
+          <li>
+            <code>grep "texto" archivo.txt</code> – busca líneas que contienen
+            un patrón. Añade <code>-i</code> para ignorar mayúsculas.
+          </li>
+          <li>
+            <code>comando --help</code> – muestra un resumen rápido de ayuda
+            para muchos comandos.
+          </li>
+          <li>
+            <code>man comando</code> – abre la página de manual con la
+            documentación completa. Usa las flechas o <code>/</code> para
+            buscar, y <code>q</code> para salir.
+          </li>
+        </ul>
+        <p>
+          Si te acostumbras a leer la salida de <code>--help</code> y las
+          páginas de manual, poco a poco dependerás menos de fragmentos
+          copiados de internet.
+        </p>
+
+        <h2>Aplicarlo todo con seguridad</h2>
+        <p>
+          No necesitas memorizar todas las opciones desde el primer día.
+          Concéntrate en un conjunto básico: <code>pwd</code>,
+          <code>ls</code>, <code>cd</code>, <code>mkdir</code>,
+          <code>cp</code>, <code>mv</code>, <code>rm</code>, <code>cat</code>,
+          <code>less</code>, <code>tail</code>, <code>grep</code>,
+          <code>find</code>, <code>df</code>, <code>free</code>,
+          <code>ps</code>, <code>top</code> y <code>man</code>.
+        </p>
+        <p>
+          El mejor lugar para experimentar es un entorno desechable como una
+          máquina virtual, un contenedor o una distribución de WSL que no sea
+          crítica en tu propio equipo. Una vez que te sientas cómodo, podrás
+          aplicar los mismos comandos en servidores con más confianza y
+          disciplina.
+        </p>
+      </article>
+      <p class="mt-12">
+        <a href="/blog" class="text-blue-600 hover:text-blue-800">
+← 返回博客列表</a
+        >
+      </p>
+    </main>
+  </body>
+</html>

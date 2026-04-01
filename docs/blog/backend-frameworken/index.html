@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Choosing a Backend Framework: Practical Criteria and Architecture Trade-offs</title>
+    <meta
+      name="description"
+      content="A structured, practical guide to choosing a backend web framework, balancing architecture trade-offs, team skills, and long-term maintenance."
+    />
+    <meta
+      name="keywords"
+      content="backend, framework, web, architecture"
+    />
+    <meta
+      property="og:image"
+      content="/assets/blog/choosing-frontend-cover.jpg"
+    />
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <main class="container mx-auto px-4 py-12 prose max-w-3xl">
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-4">
+          Choosing a Backend Framework: Practical Criteria and Architecture Trade-offs
+        </h1>
+        <p class="text-gray-500 text-sm">
+          📅 2026-04-01
+        </p>
+      </header>
+
+      <article class="prose prose-slate max-w-none">
+        <h2>Part 1 — Framing the Decision</h2>
+        <p>
+          Choosing a backend framework is an architectural decision, not just a tooling
+          choice. It affects how you model domains, structure services, handle failures,
+          and staff teams over several years. Well-known references such as Eric Evans'
+          work on domain-driven design and Martin Fowler's writing on enterprise
+          architecture emphasize that structure and boundaries often matter more than
+          any individual technology trend. A good framework should make your preferred
+          architecture style easy—whether that is a modular monolith, a small set of
+          services, or a more distributed system—without forcing premature complexity.
+        </p>
+        <p>
+          Before comparing specific technologies, clarify three questions: what problems
+          you are solving, who will maintain the system, and how you expect it to
+          evolve. A product that mainly exposes a JSON API with predictable traffic has
+          different needs from a system that coordinates long-running background jobs or
+          has strict regulatory requirements. Writing this context down first often does
+          more for decision quality than adding more benchmark numbers or feature
+          tables.
+        </p>
+
+        <h2>Part 2 — Core Evaluation Criteria</h2>
+        <p>
+          Once context is clear, you can evaluate frameworks along a consistent set of
+          criteria. The goal is not to find a universally "best" option, but one whose
+          trade-offs match your constraints.
+        </p>
+        <ul>
+          <li>
+            <strong>Language and runtime.</strong> How comfortable is your team with the
+            primary language (for example, JavaScript/TypeScript, Python, Ruby, Go,
+            Java, or C#)? What tooling and debugging support do you get from IDEs and
+            the wider ecosystem?
+          </li>
+          <li>
+            <strong>Ecosystem and longevity.</strong> Are core libraries (ORM, testing,
+            authentication, background jobs) mature and well-maintained? Frameworks like
+            Django, Ruby on Rails, and Spring Boot demonstrate how a strong ecosystem
+            can reduce glue code and unforeseen maintenance.
+          </li>
+          <li>
+            <strong>Productivity and conventions.</strong> Does the framework provide
+            sensible defaults and opinionated structure, or does it stay minimal and
+            unopinionated? Highly opinionated systems speed up small-to-medium projects
+            but may feel restrictive for unusual architectures.
+          </li>
+          <li>
+            <strong>Performance and scalability.</strong> Look at request latency,
+            concurrency models, and how the framework uses threads or async I/O. For
+            many business applications, "good enough and predictable" is more important
+            than chasing extreme throughput.
+          </li>
+          <li>
+            <strong>Operational model.</strong> How easy is it to containerize, deploy,
+            and observe the framework? Integration with logging, metrics, and tracing
+            is essential in modern environments.
+          </li>
+          <li>
+            <strong>Security and compliance.</strong> Mature frameworks often bake in
+            protections against common issues (for example, injection, CSRF, or unsafe
+            redirects) and publish hardening guides aligned with bodies like OWASP.
+          </li>
+          <li>
+            <strong>Hiring and community.</strong> If you expect the team to grow,
+            favour technologies where it is realistic to hire experienced developers or
+            onboard juniors with existing learning resources.
+          </li>
+        </ul>
+
+        <h2>Part 3 — Comparing Common Options</h2>
+        <p>
+          The following comparison is selective rather than exhaustive. It focuses on
+          widely used ecosystems and the roles they commonly play.
+        </p>
+        <ul>
+          <li>
+            <strong>Node.js with Express, Fastify, or NestJS.</strong> A natural fit
+            when your team already writes a lot of JavaScript or TypeScript. Minimal
+            tools like Express give you maximum flexibility at the cost of more
+            decisions; structured frameworks such as NestJS add conventions,
+            dependency injection, and modules closer to patterns described in
+            enterprise architecture texts.
+          </li>
+          <li>
+            <strong>Python with Django, Flask, or FastAPI.</strong> Django is a
+            batteries-included framework with strong admin tooling and a clear
+            "project" structure, well-suited to CRUD-style products and dashboards.
+            Flask and FastAPI are lighter-weight: Flask is flexible and simple, while
+            FastAPI emphasises async I/O and modern typing.
+          </li>
+          <li>
+            <strong>Ruby on Rails.</strong> Rails optimises for developer happiness and
+            rapid iteration, with powerful generators and conventions for models,
+            controllers, and views. Many product teams value its ability to get from
+            idea to working prototype quickly, especially for database-backed web
+            apps.
+          </li>
+          <li>
+            <strong>Java and Spring Boot.</strong> Spring Boot packages the broader
+            Spring ecosystem into a more approachable starting point with sensible
+            defaults. It is a common choice in organisations that already use the JVM
+            for other services and value strong tooling, type safety, and integration
+            libraries.
+          </li>
+          <li>
+            <strong>.NET (ASP.NET Core).</strong> Modern .NET offers a cross-platform,
+            high-performance framework with first-class tooling in Visual Studio and
+            good Azure integration. It works well in environments that already use C#
+            or have investments in Microsoft ecosystems.
+          </li>
+          <li>
+            <strong>Go frameworks and libraries.</strong> Go prioritises simplicity and
+            small binaries; many teams build services with the standard library plus a
+            light HTTP router. This can be attractive for infrastructure-oriented
+            services, though it sometimes requires more explicit architectural
+            discipline.
+          </li>
+        </ul>
+        <p>
+          It is usually better to choose one primary stack and learn to use it well
+          than to chase every new framework. Most high-performing teams standardise on
+          one or two stacks and invest in internal libraries, documentation, and code
+          review practices.
+        </p>
+
+        <h2>Part 4 — Matching Frameworks to Project Types</h2>
+        <p>
+          A practical way to move from theory to action is to map common project
+          archetypes to sensible defaults, then adjust for local constraints.
+        </p>
+
+        <h3>Content-heavy products and public APIs</h3>
+        <ul>
+          <li>
+            If your primary concern is quickly exposing CRUD endpoints and admin
+            tooling, full-stack frameworks like Django or Rails are strong defaults.
+          </li>
+          <li>
+            For teams deeply invested in TypeScript frontends, a Node-based backend
+            with NestJS or a similar framework can reduce context switching.
+          </li>
+        </ul>
+
+        <h3>Internal tools and line-of-business apps</h3>
+        <ul>
+          <li>
+            Admin-heavy systems benefit from frameworks that generate scaffolding and
+            forms. Django admin or Rails scaffolding can significantly reduce time to
+            first version.
+          </li>
+          <li>
+            If internal adoption depends on integration with existing identity
+            providers, prioritise ecosystems with solid authentication middleware and
+            documentation.
+          </li>
+        </ul>
+
+        <h3>Real-time and streaming workloads</h3>
+        <ul>
+          <li>
+            For long-lived connections and evented IO (for example WebSocket APIs or
+            streaming telemetry), asynchronous runtimes such as Node.js, modern Python
+            with async, or Go are common choices.
+          </li>
+          <li>
+            Regardless of framework, design your protocols and backpressure behaviour
+            carefully; poor design here can negate runtime advantages.
+          </li>
+        </ul>
+
+        <h3>Large, distributed systems</h3>
+        <ul>
+          <li>
+            In complex environments, the framework matters less than clear boundaries,
+            contracts, and observability. Practices like domain-driven design
+            (popularised by Eric Evans) and clear service-level objectives become more
+            important than specific syntax.
+          </li>
+          <li>
+            Organisations with strong JVM or .NET expertise often lean on Spring Boot or
+            ASP.NET Core, pair them with messaging systems, and standardise testing and
+            deployment pipelines.
+          </li>
+        </ul>
+
+        <h2>Part 5 — Migration and Long-Term Maintenance</h2>
+        <p>
+          Framework choices rarely stay fixed forever. New requirements, scaling
+          patterns, or organisational changes may push you to modernise or migrate.
+          Techniques such as the "Strangler Fig" pattern, frequently discussed in
+          architecture literature, recommend placing a new system in front of the old
+          one and gradually moving functionality rather than attempting a single big
+          rewrite.
+        </p>
+        <p>
+          Whatever you choose, document your decision and its assumptions. Capture why
+          the framework was selected, what alternatives were considered, and what
+          signals would justify revisiting the choice. This makes future migrations
+          easier and keeps discussions grounded.
+        </p>
+
+        <h2>Conclusion</h2>
+        <p>
+          There is no universally correct backend framework, only choices that are more
+          or less aligned with your constraints. By making context explicit, evaluating
+          options against stable criteria, and matching frameworks to clear project
+          archetypes, you can make decisions that age gracefully. From there, the
+          quality of your domain modelling, testing discipline, and operational
+          practices will matter more than incremental differences between popular
+          frameworks.
+        </p>
+      </article>
+
+      <p class="mt-12">
+        <a href="/blog" class="text-blue-600 hover:text-blue-800">← 返回博客列表</a>
+      </p>
+    </main>
+  </body>
+</html>

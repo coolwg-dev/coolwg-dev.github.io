@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>BFS、DFS 与 UCS：搜索算法的实用对比（简体中文）</title><meta name="description" content="面向工程实践，对比介绍 BFS、DFS 和统一代价搜索（UCS），说明如何建模问题以及何时选择哪种算法。"><meta name="keywords" content="search algorithms, BFS, DFS, UCS, graph search, artificial intelligence"><link rel="stylesheet" href="/assets/styles.css"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"></head> <body>  <main class="container mx-auto px-4 py-12 prose max-w-3xl"> <header class="mb-8"> <h1 class="text-4xl font-bold mb-4">BFS、DFS 与 UCS：搜索算法的实用对比（简体中文）</h1> <p class="text-gray-500 text-sm">
+📅 2026-04-01 </p> </header> <article class="prose prose-slate max-w-none"> 
+<h2>一、为什么搜索算法重要</h2>
+
+<p>在计算机科学的许多场景中，问题都可以抽象为“搜索”：在满足约束和代价条件的前提下，从起始状态找到一条到达目标状态的路径。Stuart Russell 与 Peter Norvig 的《Artificial Intelligence: A Modern Approach》等经典教材，将这类问题统一建模为图搜索，并给出了系统的算法家族。其中，广度优先搜索（BFS）、深度优先搜索（DFS）和统一代价搜索（UCS）是最基础也最常用的三种，你可以把它们理解为在同一条搜索边界上采用了不同的“下一个节点选择策略”。</p>
+
+<p>这些算法经常并排出现在书本上，但在完备性、最优性以及时间/空间开销上的表现差异很大。对工程实践而言，理解这些权衡，比死记伪代码更有价值。本文先分别回顾三种算法的核心思想，再总结在什么情境下更适合选用哪一种。</p>
+
+<h2>二、问题建模：状态、动作与代价</h2>
+
+<p>要统一地讨论 BFS、DFS 与 UCS，通常采用 AI 中标准的搜索问题建模方式：</p>
+
+<ul>
+<li><strong>状态（state）：</strong>对世界的一种抽象描述，例如网格中的位置、图中的节点或某个部分解。</li>
+<li><strong>初始状态：</strong>搜索开始的状态。</li>
+<li><strong>动作（action）：</strong>在当前状态下允许执行的操作，例如图中的一条边或对数据结构的一步更新。</li>
+<li><strong>状态转移模型：</strong>描述在给定状态下执行某个动作会到达哪个新状态。</li>
+<li><strong>目标测试：</strong>判断某个状态是否满足“问题已经解决”的判定条件。</li>
+<li><strong>步长代价：</strong>与每个动作相关联的非负数，用于度量执行这一步的成本。</li>
+</ul>
+
+<p>三种算法都维护一个由“已发现但未展开”的状态构成的<strong>边界（frontier）</strong>，以及一个用于避免在有环图中重复访问的<strong>访问集合</strong>。它们之间真正的区别，在于：如何对边界上的节点排序，从而决定下一步扩展谁。</p>
+
+<h2>三、广度优先搜索（BFS）</h2>
+
+<p>BFS 按照深度一层一层地展开搜索树：先处理深度为 0 的所有节点，再处理深度为 1 的所有节点，然后是深度为 2 的所有节点，以此类推。实现上，它为边界使用先进先出（FIFO）的队列。</p>
+
+<ul>
+<li><strong>数据结构：</strong>队列（FIFO）。</li>
+<li><strong>探索顺序：</strong>从起始状态开始，按深度递增的顺序一层一层扩展。</li>
+<li><strong>完备性：</strong>在分支因子有限且步长代价非负的情况下是完备的。</li>
+<li><strong>最优性：</strong>当所有步长代价相等（例如都为 1）时是最优的，此时最浅的目标节点对应的路径代价最低。</li>
+<li><strong>时间复杂度：</strong>与目标节点所在的最小深度之前的节点总数成正比，常记为 O(b<sup>d</sup>)，其中 b 为分支因子，d 为最浅目标的深度。</li>
+<li><strong>空间复杂度：</strong>同样为 O(b<sup>d</sup>)，因为队列需要同时存储当前深度层的大量节点。</li>
+</ul>
+
+<p>当你关心的是在<strong>无权图</strong>中找到“步数最少”的路径，例如解一个每步代价相同的迷宫或棋盘类问题时，BFS 往往是最自然的选择。</p>
+
+<h2>四、深度优先搜索（DFS）</h2>
+
+<p>DFS 的思路是尽可能沿一条路径往下搜索，直到无法继续或达到某个限制，再回溯到最近还有未探索分支的节点继续。它为边界使用后进先出（LIFO）的栈结构，或者等价的递归调用栈。</p>
+
+<ul>
+<li><strong>数据结构：</strong>栈（LIFO）或递归。</li>
+<li><strong>探索顺序：</strong>沿着一条分支不断向深处推进，直到需要回溯。</li>
+<li><strong>完备性：</strong>在深度无限或存在环的图上并不完备，除非加入深度限制并严格维护访问集合。</li>
+<li><strong>最优性：</strong>一般不最优，可能先找到一条很长或代价很高的路径，即便存在更短的解。</li>
+<li><strong>时间复杂度：</strong>最坏情况下仍为 O(b<sup>d</sup>)。</li>
+<li><strong>空间复杂度：</strong>约为 O(b &times; d)，只需维护从根到当前节点的一条路径及其沿途尚未探索的兄弟节点。</li>
+</ul>
+
+<p>当内存非常紧张、你只需要<strong>找到某个解</strong>而不要求最优，或者你有理由相信解在搜索树的深层才会出现时，DFS 会比较合适。深度优先迭代加深（IDDFS）等变体，试图在保持 DFS 低空间消耗的基础上，获得类似 BFS 的完备性和最优性。</p>
+
+<h2>五、统一代价搜索（UCS）</h2>
+
+<p>统一代价搜索将 BFS 推广到<strong>步长代价不相等</strong>的场景。它不再按照深度分层，而是始终从边界中选取当前<strong>累计路径代价</strong>最小的节点进行扩展。从图论角度看，这与 Edsger Dijkstra 提出的最短路径算法本质上是同一个思想：在所有未“定型”的候选路径中，永远优先扩展目前看来最便宜的那条。</p>
+
+<ul>
+<li><strong>数据结构：</strong>按从起点到当前节点的累计代价排序的优先队列。</li>
+<li><strong>探索顺序：</strong>按路径代价递增顺序扩展，而不是按深度递增。</li>
+<li><strong>完备性：</strong>在每一步代价都有正下界（大于 0）的前提下是完备的。</li>
+<li><strong>最优性：</strong>在步长代价非负时是最优的；算法第一次从优先队列中取出目标节点时，对应的就是一条最小代价路径。</li>
+<li><strong>时间复杂度：</strong>取决于不同代价层级的数量；在边很多且代价增量很小的图上，可能需要扩展大量中间状态。</li>
+<li><strong>空间复杂度：</strong>可能较大，因为优先队列中会同时保留许多部分路径。</li>
+</ul>
+
+<p>只要问题中“代价”真正重要——例如图中的边代表不同的行驶时间、失败概率或资源消耗——就应优先考虑 UCS，而不是只按步数计数的 BFS 或 DFS，因为 UCS 明确以累计代价为优化目标。</p>
+
+<h2>六、在实践中如何选择 BFS、DFS 与 UCS</h2>
+
+<p>在工程项目中，你很少从零开始手写这些算法，大多数时候会使用成熟的库实现。不过，理解它们的性质，有助于你在设计时做出合理选择：</p>
+
+<ul>
+<li>在<strong>无权图</strong>且关注“步数最少解”的情况下，如果内存足够，优先考虑 BFS。</li>
+<li>当内存受限、任意一个可行解就足够、或者你有先验认为解很深时，可以考虑 DFS 或带深度限制的变体。</li>
+<li>只要边的代价不相同、且你关心的是<strong>总代价最小</strong>的路径，就应把 UCS 视为默认选项；这是绝大多数最短路径问题（代价非负）的合理基线。</li>
+<li>对于规模特别大的图或需要利用启发式信息的场景，可以在 UCS 的基础上采用 A* 等“知情搜索”算法，用可证明的启发函数进一步引导搜索。</li>
+</ul>
+
+<p>只要你能把问题清晰地建模为状态、动作、代价和目标，并掌握这三种算法各自的保证与限制，通常就可以快速缩小可选范围，并用具体的权衡向合作者解释为何选择某种搜索策略。</p>
+ </article> <p class="mt-12"> <a href="/blog" class="text-blue-600 hover:text-blue-800">
+← 返回博客列表</a> </p> </main>  </body></html>

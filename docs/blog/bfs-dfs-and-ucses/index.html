@@ -1,0 +1,81 @@
+<!DOCTYPE html><html lang="es"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Comparar BFS, DFS y UCS: Estrategias de búsqueda en la práctica</title><meta name="description" content="Explicación práctica de BFS, DFS y búsqueda de coste uniforme, con orientación sobre cuándo elegir cada algoritmo."><meta name="keywords" content="search algorithms, BFS, DFS, UCS, graph search, artificial intelligence"><link rel="stylesheet" href="/assets/styles.css"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"></head> <body>  <main class="container mx-auto px-4 py-12 prose max-w-3xl"> <header class="mb-8"> <h1 class="text-4xl font-bold mb-4">Comparar BFS, DFS y UCS: Estrategias de búsqueda en la práctica</h1> <p class="text-gray-500 text-sm">
+📅 2026-04-01 </p> </header> <article class="prose prose-slate max-w-none"> 
+<h2>1. Por qué importan los algoritmos de búsqueda</h2>
+
+<p>Muchos problemas cotidianos en informática pueden formularse como búsqueda: encontrar un camino desde un estado inicial hasta un objetivo respetando restricciones y costes. Libros clásicos de IA como <em>Artificial Intelligence: A Modern Approach</em> de Stuart Russell y Peter Norvig describen una familia de algoritmos de búsqueda en grafos que resuelven estos problemas de forma sistemática. Tres de los más importantes son la búsqueda en anchura (BFS), la búsqueda en profundidad (DFS) y la búsqueda de coste uniforme (UCS), que pueden entenderse como distintas políticas para decidir qué nodo de la frontera expandir a continuación.</p>
+
+<p>Aunque suelen aparecer juntos en los manuales, estos algoritmos se comportan de manera muy diferente en términos de completitud, optimalidad y consumo de tiempo y memoria. Comprender esos compromisos prácticos es más útil que memorizar pseudocódigo. Este artículo repasa cada algoritmo a alto nivel y resume en qué situaciones resulta razonable elegir uno u otro.</p>
+
+<h2>2. Formulación del problema: estados, acciones y costes</h2>
+
+<p>Para hablar de BFS, DFS y UCS de forma unificada, conviene usar la formulación estándar de problemas de búsqueda en IA:</p>
+
+<ul>
+<li><strong>Estados:</strong> configuraciones abstractas del mundo (por ejemplo, posiciones en una cuadrícula, nodos de un grafo o soluciones parciales).</li>
+<li><strong>Estado inicial:</strong> punto de partida de la búsqueda.</li>
+<li><strong>Acciones:</strong> movimientos permitidos desde cada estado (aristas en un grafo, operaciones sobre estructuras de datos, etc.).</li>
+<li><strong>Modelo de transición:</strong> descripción de qué estado resulta al aplicar una acción.</li>
+<li><strong>Test de objetivo:</strong> predicado que indica si un estado es solución.</li>
+<li><strong>Coste de paso:</strong> número no negativo asociado a cada acción, usado por los algoritmos sensibles al coste.</li>
+</ul>
+
+<p>Los tres algoritmos mantienen una <strong>frontera</strong> (conjunto abierto) de estados descubiertos pero aún no expandidos, además de un conjunto de <strong>visitados</strong> para evitar ciclos. La diferencia esencial está en cómo ordenan esa frontera.</p>
+
+<h2>3. Búsqueda en anchura (BFS)</h2>
+
+<p>BFS explora el árbol de búsqueda nivel a nivel: primero expande todos los nodos a profundidad 0, luego todos los de profundidad 1, después los de profundidad 2, y así sucesivamente. Operativamente, utiliza una cola FIFO para la frontera.</p>
+
+<ul>
+<li><strong>Estructura de datos:</strong> cola (FIFO).</li>
+<li><strong>Orden de exploración:</strong> profundidad creciente desde el estado inicial.</li>
+<li><strong>Completitud:</strong> completa si el factor de ramificación es finito y los costes son no negativos.</li>
+<li><strong>Optimalidad:</strong> óptima cuando todos los costes de paso son iguales; en ese caso, el objetivo más superficial tiene el menor coste de camino.</li>
+<li><strong>Complejidad temporal:</strong> proporcional al número de nodos hasta la profundidad del objetivo más cercano; suele expresarse como O(b<sup>d</sup>), donde b es el factor de ramificación y d la profundidad del objetivo.</li>
+<li><strong>Complejidad espacial:</strong> también O(b<sup>d</sup>), porque la cola debe almacenar casi todos los nodos del nivel actual.</li>
+</ul>
+
+<p>BFS es una elección natural cuando te interesa encontrar una solución con el <strong>menor número de pasos</strong> en un grafo no ponderado, por ejemplo el mínimo de movimientos en un puzle donde todas las acciones cuestan lo mismo.</p>
+
+<h2>4. Búsqueda en profundidad (DFS)</h2>
+
+<p>DFS se adentra lo máximo posible por una rama antes de retroceder (backtracking). Utiliza una pila LIFO (o recursión) para la frontera, expandiendo siempre el nodo descubierto más recientemente que todavía tiene hijos sin explorar.</p>
+
+<ul>
+<li><strong>Estructura de datos:</strong> pila (LIFO) o recursión.</li>
+<li><strong>Orden de exploración:</strong> sigue una rama hasta profundidad d antes de explorar alternativas.</li>
+<li><strong>Completitud:</strong> <em>no</em> es completa en árboles de profundidad infinita o en grafos con ciclos, a menos que se impongan límites de profundidad y se controle cuidadosamente el conjunto de visitados.</li>
+<li><strong>Optimalidad:</strong> en general no es óptima; puede encontrar un camino largo o costoso aunque exista otro más corto.</li>
+<li><strong>Complejidad temporal:</strong> en el peor caso sigue siendo O(b<sup>d</sup>).</li>
+<li><strong>Complejidad espacial:</strong> solo O(b &times; d), ya que almacena un único camino y los hermanos pendientes a lo largo de ese camino.</li>
+</ul>
+
+<p>DFS resulta atractiva cuando la memoria es limitada, cuando basta con <strong>alguna</strong> solución y no necesariamente la mejor, o cuando sospechas que las soluciones se encuentran muy profundas en el árbol de búsqueda. Variantes como la búsqueda en profundidad iterativa combinan la baja memoria de DFS con propiedades de optimalidad parecidas a BFS.</p>
+
+<h2>5. Búsqueda de coste uniforme (UCS)</h2>
+
+<p>La búsqueda de coste uniforme generaliza BFS al caso de <strong>costes de paso no uniformes</strong>. En lugar de explorar por profundidad, siempre expande el nodo de la frontera con el <strong>menor coste acumulado</strong> desde el inicio. Esencialmente es el algoritmo de Dijkstra para caminos mínimos cuando todos los costes son no negativos.</p>
+
+<ul>
+<li><strong>Estructura de datos:</strong> cola de prioridad ordenada por coste de camino acumulado.</li>
+<li><strong>Orden de exploración:</strong> coste de camino creciente, no necesariamente profundidad creciente.</li>
+<li><strong>Completitud:</strong> completa si los costes de paso están acotados inferiormente por una constante positiva.</li>
+<li><strong>Optimalidad:</strong> óptima para costes no negativos; la primera vez que UCS extrae un objetivo de la frontera, ha encontrado un camino de coste mínimo.</li>
+<li><strong>Complejidad temporal:</strong> depende de cuántos niveles de coste distintos deban explorarse; en grafos densos con incrementos de coste pequeños, UCS puede ser más lenta que BFS.</li>
+<li><strong>Complejidad espacial:</strong> potencialmente alta, ya que la cola de prioridad puede contener muchos caminos parciales.</li>
+</ul>
+
+<p>Siempre que el coste importe de verdad (por ejemplo, cuando las aristas representan tiempos de viaje, probabilidad de fallo o consumo de recursos diferente), UCS es preferible a BFS o DFS porque optimiza explícitamente el coste acumulado en lugar de la profundidad.</p>
+
+<h2>6. Cómo elegir entre BFS, DFS y UCS</h2>
+
+<p>En la práctica, rara vez implementas estos algoritmos desde cero; la mayoría de los sistemas se apoyan en bibliotecas probadas. Sin embargo, entender su comportamiento te ayuda a tomar buenas decisiones de diseño:</p>
+
+<ul>
+<li>Usa <strong>BFS</strong> en grafos no ponderados cuando necesites soluciones con el menor número de pasos y el uso de memoria sea aceptable.</li>
+<li>Usa <strong>DFS</strong> (o profundidad iterativa) cuando la memoria sea crítica, cuando cualquier solución válida sirva o cuando tengas buenas razones para pensar que las soluciones están muy profundas.</li>
+<li>Usa <strong>UCS</strong> cuando los costes de paso varían y te interese minimizar el coste total; trátala como la opción por defecto para problemas de camino mínimo con pesos no negativos.</li>
+<li>Para grafos muy grandes o heurísticas complejas, considera variantes informadas como la búsqueda A*, que extienden UCS añadiendo heurísticas admisibles para guiar la exploración.</li>
+</ul>
+
+<p>Si formulas claramente tu problema (estados, acciones, costes y objetivos) y entiendes las garantías de estos tres algoritmos, podrás elegir una estrategia de búsqueda adecuada y justificarla ante tus colaboradores con argumentos concretos.</p>
+ </article> <p class="mt-12"> <a href="/blog" class="text-blue-600 hover:text-blue-800">← 返回博客列表</a> </p> </main>  </body></html>
