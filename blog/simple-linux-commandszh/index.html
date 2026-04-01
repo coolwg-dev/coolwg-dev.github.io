@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Linux 常用指令入門：實用指南</title>
+    <meta
+      name="description"
+      content="透過具體示例學習日常最常用的 Linux 終端指令，用於導覽目錄、管理檔案與檢視系統狀態。"
+    />
+    <meta
+      name="keywords"
+      content="Linux, 指令, 終端, 新手"
+    />
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <main class="container mx-auto px-4 py-12 prose max-w-3xl">
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-4">Linux 常用指令入門：實用指南</h1>
+        <p class="text-gray-500 text-sm">
+📅 2026-04-01
+        </p>
+      </header>
+      <article class="prose prose-slate max-w-none">
+        <h2>為什麼要學習 Linux 常用指令</h2>
+        <p>
+          很多開發與資料相關工作最終都會接觸到 Linux：雲端伺服器、容器、本機的 WSL 環境，或是透過
+          <code>ssh</code> 連線的遠端主機。掌握一小組可靠的指令，可以大幅提升效率，讓你在沒有圖形介面的情況下
+          依然可以完成日常工作。
+        </p>
+        <p>
+          本文聚焦於一套實用且容易記住的基礎指令，而不是涵蓋所有參數。重點是建立心智模型：在指令列的世界裡，
+          檔案、行程與文字是如何被組織與呈現的。
+        </p>
+
+        <h2>先熟悉終端環境</h2>
+        <p>
+          打開終端之後，你通常會停在自己的家目錄。先學會看清楚「我在哪裡」以及「附近有什麼」。
+        </p>
+        <ul>
+          <li>
+            <code>pwd</code> – 顯示目前所在目錄的絕對路徑。
+          </li>
+          <li>
+            <code>ls</code> – 列出目前目錄中的檔案與子目錄。使用
+            <code>ls -l</code> 查看詳細資訊，<code>ls -a</code> 顯示隱藏檔。
+          </li>
+          <li>
+            <code>cd 路徑/</code> – 切換目錄。<code>cd ..</code> 回到上一層，
+            <code>cd ~</code> 回到家目錄。
+          </li>
+          <li>
+            <code>clear</code> – 清除終端畫面，但不會改變目前所在位置。
+          </li>
+        </ul>
+        <p>
+          一個安全的習慣是，在執行可能會修改或刪除檔案的指令之前，先執行
+          <code>pwd</code> 與 <code>ls</code>，確認自己真正在預期的目錄裡。
+        </p>
+
+        <h2>檔案與目錄操作</h2>
+        <p>
+          日常工作多半圍繞著建立、複製、移動與檢視檔案或目錄。
+        </p>
+        <ul>
+          <li>
+            <code>mkdir my-folder</code> – 建立新目錄。
+          </li>
+          <li>
+            <code>rmdir empty-folder</code> – 刪除空目錄。
+          </li>
+          <li>
+            <code>cp source.txt dest.txt</code> – 複製檔案；複製目錄時可以使用
+            <code>cp -r src/ dest/</code>。
+          </li>
+          <li>
+            <code>mv old-name.txt new-name.txt</code> – 移動或重新命名檔案。
+          </li>
+          <li>
+            <code>rm file.txt</code> – 刪除檔案。
+          </li>
+        </ul>
+        <p>
+          對遞迴刪除要格外小心：<code>rm -rf</code> 會在沒有任何提示的情況下刪除目錄及其所有內容。
+          對初學者來說，盡量避免在不確定的路徑上執行 <code>rm -rf</code>，可以先用
+          <code>ls</code> 看清楚，再分批刪除。
+        </p>
+        <p>
+          快速檢視純文字檔時可以使用：
+        </p>
+        <ul>
+          <li>
+            <code>cat file.txt</code> – 將整個檔案內容輸出到終端。
+          </li>
+          <li>
+            <code>less file.txt</code> – 以可捲動方式檢視檔案，使用方向鍵移動，
+            <code>q</code> 離開。
+          </li>
+          <li>
+            <code>head -n 20 file.txt</code> – 顯示前 20 行。
+          </li>
+          <li>
+            <code>tail -n 20 file.txt</code> – 顯示最後 20 行。
+          </li>
+        </ul>
+
+        <h2>檢視系統與行程狀態</h2>
+        <p>
+          你經常需要回答的問題包括：「目前有哪些程式在跑？」、「磁碟與記憶體用了多少？」。以下指令可以幫助
+          你快速掌握系統概況。
+        </p>
+        <ul>
+          <li>
+            <code>whoami</code> – 顯示目前使用者。
+          </li>
+          <li>
+            <code>uname -a</code> – 印出系統核心與架構等基本資訊。
+          </li>
+          <li>
+            <code>df -h</code> – 以易讀單位顯示各分割區的磁碟使用情況。
+          </li>
+          <li>
+            <code>free -h</code> – 顯示記憶體（RAM）使用狀況。
+          </li>
+          <li>
+            <code>ps aux</code> – 以詳細格式列出執行中的行程。
+          </li>
+          <li>
+            <code>top</code> 或 <code>htop</code> – 互動式檢視行程與資源使用。
+          </li>
+          <li>
+            <code>kill PID</code> – 依照行程 ID 傳送訊號終止行程（PID 可從
+            <code>ps</code> 或 <code>top</code> 取得）。
+          </li>
+        </ul>
+        <p>
+          在練習階段，比起頻繁終止行程，更建議先觀察資源變化與行程列表。在共用或正式環境中，停止重要服務
+          前務必與團隊溝通。
+        </p>
+
+        <h2>查找內容與閱讀說明</h2>
+        <p>
+          當你已經習慣在系統裡移動與瀏覽之後，下一步就是學會「找到東西」以及「看懂指令在做什麼」。
+        </p>
+        <ul>
+          <li>
+            <code>find . -name "樣式"</code> – 在目前目錄與子目錄中尋找檔案，例如
+            <code>find . -name "*.log"</code>。
+          </li>
+          <li>
+            <code>grep "文字" file.txt</code> – 在檔案中尋找包含某個樣式的行，加上
+            <code>-i</code> 可以忽略大小寫。
+          </li>
+          <li>
+            <code>指令 --help</code> – 取得許多指令的簡短說明。
+          </li>
+          <li>
+            <code>man 指令</code> – 開啟完整的手冊頁。使用方向鍵或
+            <code>/</code> 搜尋，<code>q</code> 離開。
+          </li>
+        </ul>
+        <p>
+          養成閱讀 <code>--help</code> 輸出與手冊頁的習慣，可以逐漸減少對網路上複製貼上的依賴，
+          更清楚自己正在執行什麼操作。
+        </p>
+
+        <h2>安全地把指令用起來</h2>
+        <p>
+          一開始不需要記住所有參數，只要先把一套基礎工具用熟即可：
+          <code>pwd</code>、<code>ls</code>、<code>cd</code>、<code>mkdir</code>、
+          <code>cp</code>、<code>mv</code>、<code>rm</code>、<code>cat</code>、
+          <code>less</code>、<code>tail</code>、<code>grep</code>、
+          <code>find</code>、<code>df</code>、<code>free</code>、
+          <code>ps</code>、<code>top</code> 與 <code>man</code>。
+        </p>
+        <p>
+          最適合練習的環境是可隨時丟棄的系統，例如虛擬機、容器，或自己電腦上不重要的 WSL 發行版。
+          當你在這些環境中建立起信心之後，就可以在正式伺服器上更有把握、也更有紀律地運用同樣的指令。
+        </p>
+      </article>
+      <p class="mt-12">
+        <a href="/blog" class="text-blue-600 hover:text-blue-800">
+← 返回博客列表</a
+        >
+      </p>
+    </main>
+  </body>
+</html>

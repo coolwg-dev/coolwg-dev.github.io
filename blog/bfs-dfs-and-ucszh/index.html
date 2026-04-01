@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="zh-HK"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>BFS、DFS 與 UCS：搜尋演算法的實務比較</title><meta name="description" content="面向工程實務，對比介紹 BFS、DFS 與統一成本搜尋（UCS），說明如何建模問題以及何時選用各種演算法。"><meta name="keywords" content="search algorithms, BFS, DFS, UCS, graph search, artificial intelligence"><link rel="stylesheet" href="/assets/styles.css"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"></head> <body>  <main class="container mx-auto px-4 py-12 prose max-w-3xl"> <header class="mb-8"> <h1 class="text-4xl font-bold mb-4">BFS、DFS 與 UCS：搜尋演算法的實務比較</h1> <p class="text-gray-500 text-sm">
+📅 2026-04-01 </p> </header> <article class="prose prose-slate max-w-none"> 
+<h2>一、為什麼搜尋演算法重要</h2>
+
+<p>在許多電腦科學情境中，問題都可以抽象為「搜尋」：在滿足約束與成本條件的前提下，從起始狀態找到一條通往目標狀態的路徑。Stuart Russell 與 Peter Norvig 的《Artificial Intelligence: A Modern Approach》一書，將這類問題統一建模為圖搜尋，並給出一整套系統化的演算法。其中，廣度優先搜尋（BFS）、深度優先搜尋（DFS）與統一成本搜尋（UCS）是最基礎也最常見的三種，你可以把它們理解為在同一條搜尋邊界上，採用了不同的「下一個節點選擇策略」。</p>
+
+<p>這些演算法經常一起出現在教材裡，但在完備性、最優性以及時間與空間開銷方面，其實有明顯差異。對實務工程而言，理解這些取捨，比背下所有偽程式碼更實用。本文先分別回顧三種演算法的核心概念，再總結在各種情境下應該如何合理選用。</p>
+
+<h2>二、問題建模：狀態、動作與成本</h2>
+
+<p>要從同一個角度看待 BFS、DFS 與 UCS，通常會採用人工智慧領域中標準的搜尋問題建模方式：</p>
+
+<ul>
+<li><strong>狀態：</strong>對世界的一種抽象表示，例如網格中的位置、圖上的節點或某個部分解。</li>
+<li><strong>初始狀態：</strong>搜尋的起點。</li>
+<li><strong>動作：</strong>在當前狀態下允許執行的操作，例如圖上的一條邊，或對資料結構的一步更新。</li>
+<li><strong>狀態轉移模型：</strong>描述在某個狀態下執行特定動作會到達哪個新狀態。</li>
+<li><strong>目標測試：</strong>判斷某個狀態是否已經滿足問題要求。</li>
+<li><strong>步長成本：</strong>與每個動作關聯的非負數，用來量化執行這一步的代價。</li>
+</ul>
+
+<p>三種演算法都會維護一個由「已發現但尚未展開」狀態組成的<strong>邊界（frontier）</strong>，以及一個用來避免在有環圖上重複拜訪的<strong>已訪集合</strong>。它們真正的差異，在於如何對邊界排序，進而決定下一步要擴展哪個節點。</p>
+
+<h2>三、廣度優先搜尋（BFS）</h2>
+
+<p>BFS 會一層一層地探索搜尋樹：先處理深度為 0 的所有節點，再處理深度為 1 的所有節點，接著是深度為 2，以此類推。實作上，它為邊界使用先進先出（FIFO）的佇列。</p>
+
+<ul>
+<li><strong>資料結構：</strong>佇列（FIFO）。</li>
+<li><strong>探索順序：</strong>從起點開始，依深度遞增的順序逐層擴展。</li>
+<li><strong>完備性：</strong>在分支因子有限且步長成本為非負時是完備的。</li>
+<li><strong>最優性：</strong>當所有步長成本相等（例如都為 1）時是最優的，此時最淺的目標節點即對應成本最小的路徑。</li>
+<li><strong>時間複雜度：</strong>與目標節點所在的最小深度之前的節點總數成正比，通常寫作 O(b<sup>d</sup>)，其中 b 為分支因子、d 為最淺目標深度。</li>
+<li><strong>空間複雜度：</strong>同樣為 O(b<sup>d</sup>)，因為佇列必須同時保存當前深度層的大量節點。</li>
+</ul>
+
+<p>當你在<strong>無權圖</strong>中尋找「步數最少」的解時，例如每一步成本相同的迷宮路徑問題，BFS 往往是最直觀的選擇。</p>
+
+<h2>四、深度優先搜尋（DFS）</h2>
+
+<p>DFS 會盡量沿著一條路徑向下探索，直到無法再前進或達到事先設定的限制，然後回溯（backtracking）到最近仍有未探索分支的節點繼續。它為邊界使用後進先出（LIFO）的堆疊結構，或等價地利用遞迴呼叫堆疊。</p>
+
+<ul>
+<li><strong>資料結構：</strong>堆疊（LIFO）或遞迴。</li>
+<li><strong>探索順序：</strong>沿著單一路徑持續向深處推進，直到需要回溯。</li>
+<li><strong>完備性：</strong>在深度無限或存在環的圖上並不完備，除非加入深度限制並嚴格管理已訪集合。</li>
+<li><strong>最優性：</strong>一般不具最優性，可能先找到一條很長或成本很高的路徑，即使存在更短的解。</li>
+<li><strong>時間複雜度：</strong>最壞情況下仍為 O(b<sup>d</sup>)。</li>
+<li><strong>空間複雜度：</strong>約為 O(b &times; d)，只需維護從根到當前節點的一條路徑及沿途尚未展開的兄弟節點。</li>
+</ul>
+
+<p>當記憶體資源有限、你只需要<strong>某個</strong>可行解而非最佳解，或是你有充分理由認為解只會出現在搜尋樹的深層時，DFS 是合理的選擇。像深度優先反覆加深（IDDFS）這類變形，試圖在保持 DFS 低空間消耗的同時，獲得類似 BFS 的完備與最優特性。</p>
+
+<h2>五、統一成本搜尋（UCS）</h2>
+
+<p>統一成本搜尋可以看作是針對<strong>步長成本不相等</strong>情況下，對 BFS 的自然推廣。它不再按深度分層，而是永遠從邊界中選擇目前<strong>累計成本</strong>最低的節點進行擴展。從圖論角度來看，這與 Edsger Dijkstra 提出的單源最短路徑演算法在精神上是一致的：在所有候選路徑中，永遠優先擴展目前看起來最便宜的那一條。</p>
+
+<ul>
+<li><strong>資料結構：</strong>依從起點到當前節點累計成本排序的優先佇列。</li>
+<li><strong>探索順序：</strong>依路徑成本遞增順序擴展，不一定依深度。</li>
+<li><strong>完備性：</strong>在每一步成本都有正下界（大於 0）時是完備的。</li>
+<li><strong>最優性：</strong>在步長成本為非負時具有最優性；演算法第一次從優先佇列中取出目標節點時，即對應一條最小成本路徑。</li>
+<li><strong>時間複雜度：</strong>取決於不同成本層級的數量；在邊很多且成本增量很小的圖上，可能需要擴展大量中間狀態。</li>
+<li><strong>空間複雜度：</strong>可能較大，因為優先佇列中會同時保留許多部分路徑。</li>
+</ul>
+
+<p>只要問題中的「成本」真正在意——例如邊代表不同的行駛時間、失敗機率或資源消耗——就應優先考慮 UCS，而不是只按步數計算的 BFS 或 DFS，因為 UCS 直接以累計成本最小為目標。</p>
+
+<h2>六、實務中如何在 BFS、DFS 與 UCS 之間做選擇</h2>
+
+<p>在實際專案中，你很少會完全從頭實作這些演算法，多半會使用現成的函式庫。不過，理解它們的行為特性，仍然有助於在設計階段做出合理權衡：</p>
+
+<ul>
+<li>在<strong>無權圖</strong>且重視「步數最少解」的情況下，只要記憶體足夠，BFS 通常是安全的預設選擇。</li>
+<li>當記憶體嚴重受限、任何一個可行解都可以接受、或你有先驗知識認為解在很深的層級時，可以考慮 DFS 或帶深度限制的變形。</li>
+<li>只要邊的成本不相同、而你關心的是<strong>總成本最小</strong>，就應該把 UCS 視為最短路徑問題（成本非負）的基線解法。</li>
+<li>對於規模極大或可以設計良好啟發式的問題，可在 UCS 的基礎上使用 A* 等知情搜尋演算法，以可證明的啟發函式進一步引導探索。</li>
+</ul>
+
+<p>只要你能把問題清楚地建模為狀態、動作、成本與目標，並掌握這三種演算法各自的保證與限制，通常就能快速縮小候選範圍，並用具體的取捨向團隊解釋為什麼選擇某種搜尋策略。</p>
+ </article> <p class="mt-12"> <a href="/blog" class="text-blue-600 hover:text-blue-800">
+← 返回博客列表</a> </p> </main>  </body></html>

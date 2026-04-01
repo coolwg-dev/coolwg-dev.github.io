@@ -1,0 +1,81 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Comparing BFS, DFS, and UCS: Search Strategies in Practice</title><meta name="description" content="An accessible, practical comparison of BFS, DFS, and Uniform Cost Search, with guidance on when to use each algorithm."><meta name="keywords" content="search algorithms, BFS, DFS, UCS, graph search, artificial intelligence"><link rel="stylesheet" href="/assets/styles.css"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"></head> <body>  <main class="container mx-auto px-4 py-12 prose max-w-3xl"> <header class="mb-8"> <h1 class="text-4xl font-bold mb-4">Comparing BFS, DFS, and UCS: Search Strategies in Practice</h1> <p class="text-gray-500 text-sm">
+📅 2026-04-01 </p> </header> <article class="prose prose-slate max-w-none"> 
+<h2>1. Why search algorithms matter</h2>
+
+<p>Many everyday problems in computer science can be framed as search: find a path from a start configuration to a goal while respecting constraints and costs. Classic AI texts such as Russell and Norvig's <em>Artificial Intelligence: A Modern Approach</em> describe a family of graph search algorithms that solve these problems systematically. Three of the most important are Breadth-First Search (BFS), Depth-First Search (DFS), and Uniform Cost Search (UCS), which you can think of as different policies for deciding which frontier node to expand next.</p>
+
+<p>Although they often appear side by side in textbooks, these algorithms behave quite differently in terms of completeness, optimality, and time/space usage. Understanding those trade-offs is more useful in practice than memorizing pseudocode. This article reviews each algorithm at a high level and then summarizes when you would reasonably choose one over the others.</p>
+
+<h2>2. Problem setup: states, actions, and costs</h2>
+
+<p>To talk about BFS, DFS, and UCS in a unified way, it helps to use the standard search problem formulation from AI:</p>
+
+<ul>
+<li><strong>States:</strong> abstract configurations of the world (for example, positions in a grid, nodes in a graph, or partial solutions).</li>
+<li><strong>Initial state:</strong> where the search begins.</li>
+<li><strong>Actions:</strong> allowed moves from each state (edges in a graph, operations on data structures, etc.).</li>
+<li><strong>Transition model:</strong> a description of what state results from applying an action.</li>
+<li><strong>Goal test:</strong> a predicate that says whether a state is a solution.</li>
+<li><strong>Step cost:</strong> a non-negative number associated with each action, used by cost-sensitive algorithms.</li>
+</ul>
+
+<p>All three algorithms maintain a <strong>frontier</strong> (or open set) of discovered but not yet expanded states, plus a <strong>visited</strong> set to avoid revisiting nodes in graphs with cycles. The difference lies in how they order the frontier.</p>
+
+<h2>3. Breadth-First Search (BFS)</h2>
+
+<p>BFS explores the search tree level by level: it expands all nodes at depth 0, then all nodes at depth 1, then depth 2, and so on. Operationally, it uses a first-in, first-out queue for the frontier.</p>
+
+<ul>
+<li><strong>Data structure:</strong> queue (FIFO).</li>
+<li><strong>Exploration order:</strong> increasing depth from the start state.</li>
+<li><strong>Completeness:</strong> complete if the branching factor is finite and costs are non-negative.</li>
+<li><strong>Optimality:</strong> optimal when all step costs are equal; in that case, the shallowest goal has the lowest path cost.</li>
+<li><strong>Time complexity:</strong> proportional to the number of nodes up to the shallowest goal depth; usually written as O(b<sup>d</sup>) for branching factor b and goal depth d.</li>
+<li><strong>Space complexity:</strong> also O(b<sup>d</sup>), because the queue holds almost all nodes at the current frontier depth.</li>
+</ul>
+
+<p>BFS is a natural choice when you care about finding the <strong>fewest steps</strong> solution in an unweighted graph, such as the minimum number of moves in a puzzle where each move has the same cost.</p>
+
+<h2>4. Depth-First Search (DFS)</h2>
+
+<p>DFS dives as deep as possible along one path before backtracking. It uses a last-in, first-out stack (or recursion) for the frontier, always expanding the most recently discovered node that still has unexplored children.</p>
+
+<ul>
+<li><strong>Data structure:</strong> stack (LIFO) or recursion.</li>
+<li><strong>Exploration order:</strong> follows one branch down to depth d before exploring alternatives.</li>
+<li><strong>Completeness:</strong> <em>not</em> complete in infinite-depth trees or in graphs with cycles unless you impose depth limits and track visited states carefully.</li>
+<li><strong>Optimality:</strong> not optimal in general; it may find a long or costly path even when a shorter one exists.</li>
+<li><strong>Time complexity:</strong> still O(b<sup>d</sup>) in the worst case.</li>
+<li><strong>Space complexity:</strong> only O(b &times; d) because it stores a single path plus the unexplored siblings along that path.</li>
+</ul>
+
+<p>DFS is attractive when memory is tight, when you simply need <strong>some</strong> solution rather than the best, or when solutions are anticipated to lie very deep in the search tree. Variants such as iterative deepening depth-first search (IDDFS) combine DFS's low memory with BFS-like optimality properties.</p>
+
+<h2>5. Uniform Cost Search (UCS)</h2>
+
+<p>Uniform Cost Search generalizes BFS to the case of <strong>non-uniform step costs</strong>. Instead of exploring by depth, it always expands the node on the frontier with the <strong>lowest path cost so far</strong>. This is essentially Dijkstra's algorithm for shortest paths when all step costs are non-negative.</p>
+
+<ul>
+<li><strong>Data structure:</strong> priority queue ordered by accumulated path cost from the start.</li>
+<li><strong>Exploration order:</strong> increasing path cost, not necessarily increasing depth.</li>
+<li><strong>Completeness:</strong> complete if step costs are bounded below by a positive constant.</li>
+<li><strong>Optimality:</strong> optimal for non-negative step costs; the first time UCS removes a goal from the frontier, it has found a least-cost path.</li>
+<li><strong>Time complexity:</strong> depends on how many distinct cost levels must be explored; in dense graphs with many small cost increments, UCS can be slower than BFS.</li>
+<li><strong>Space complexity:</strong> potentially large, because many partial paths may coexist in the priority queue.</li>
+</ul>
+
+<p>Whenever costs truly matter&mdash;for example, when different edges represent different travel times, probabilities of failure, or resource usage&mdash;UCS is preferable to BFS or DFS, because it explicitly optimizes accumulated cost rather than depth.</p>
+
+<h2>6. Choosing between BFS, DFS, and UCS</h2>
+
+<p>In practice, you rarely implement these algorithms in isolation; most real systems build on well-tested libraries. However, knowing their behavior helps you make good design decisions:</p>
+
+<ul>
+<li>Use <strong>BFS</strong> for unweighted graphs when you need the fewest-steps solution and memory usage is acceptable.</li>
+<li>Use <strong>DFS</strong> (or iterative deepening) when memory is constrained, when any solution is acceptable, or when you have a good reason to believe solutions lie deep along particular branches.</li>
+<li>Use <strong>UCS</strong> when step costs vary and you care about minimizing total cost; treat it as the default for shortest-path problems with non-negative edge weights.</li>
+<li>For very large graphs or complex heuristics, consider informed variants such as A* search, which extend UCS by adding admissible heuristics to guide exploration.</li>
+</ul>
+
+<p>If you model your problem clearly (states, actions, costs, and goals) and understand these three algorithms' guarantees, you can usually narrow down the right search strategy quickly and justify it to collaborators with concrete trade-offs.</p>
+ </article> <p class="mt-12"> <a href="/blog" class="text-blue-600 hover:text-blue-800">← 返回博客列表</a> </p> </main>  </body></html>

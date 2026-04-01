@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Linux 常用命令入门：实用指南</title>
+    <meta
+      name="description"
+      content="通过具体示例学习日常最常用的 Linux 终端命令，用于导航目录、管理文件和查看系统状态。"
+    />
+    <meta
+      name="keywords"
+      content="Linux, 命令, 终端, 新手"
+    />
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <main class="container mx-auto px-4 py-12 prose max-w-3xl">
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-4">Linux 常用命令入门：实用指南</h1>
+        <p class="text-gray-500 text-sm">
+📅 2026-04-01
+        </p>
+      </header>
+      <article class="prose prose-slate max-w-none">
+        <h2>为什么要学习 Linux 常用命令</h2>
+        <p>
+          很多开发和数据相关的工作最终都会接触到 Linux：云服务器、容器、本地的 WSL 环境，或者通过
+          <code>ssh</code> 连接的远程主机。掌握一小部分可靠的命令，可以显著提升效率，让你在没有图形界面的情况
+          下依然能完成日常任务。
+        </p>
+        <p>
+          本文聚焦于一组实用、可记忆的基础命令，而不是覆盖所有选项。重点是建立一个心智模型：在命令行眼中，
+          文件、进程与文本是如何组织和呈现的。
+        </p>
+
+        <h2>先熟悉终端环境</h2>
+        <p>
+          打开终端后，你通常会落在自己的主目录。先学会看清楚“我在哪儿”和“周围有什么”。
+        </p>
+        <ul>
+          <li>
+            <code>pwd</code> – 显示当前所在目录的绝对路径。
+          </li>
+          <li>
+            <code>ls</code> – 列出当前目录下的文件和子目录。使用
+            <code>ls -l</code> 查看详细信息，<code>ls -a</code> 显示隐藏文件。
+          </li>
+          <li>
+            <code>cd 路径/</code> – 切换目录。<code>cd ..</code> 返回上一级，
+            <code>cd ~</code> 回到主目录。
+          </li>
+          <li>
+            <code>clear</code> – 清空终端显示，但不会改变当前目录。
+          </li>
+        </ul>
+        <p>
+          一个安全的习惯是，在执行可能修改或删除文件的命令前，先运行
+          <code>pwd</code> 和 <code>ls</code>，确认自己确实在预期的目录下。
+        </p>
+
+        <h2>文件与目录操作</h2>
+        <p>
+          日常工作的大部分时间，都是在创建、复制、移动或查看文件与目录。
+        </p>
+        <ul>
+          <li>
+            <code>mkdir my-folder</code> – 创建一个新目录。
+          </li>
+          <li>
+            <code>rmdir empty-folder</code> – 删除一个空目录。
+          </li>
+          <li>
+            <code>cp source.txt dest.txt</code> – 复制文件；目录使用
+            <code>cp -r src/ dest/</code>。
+          </li>
+          <li>
+            <code>mv old-name.txt new-name.txt</code> – 移动或重命名文件。
+          </li>
+          <li>
+            <code>rm file.txt</code> – 删除文件。
+          </li>
+        </ul>
+        <p>
+          对递归删除要格外小心：<code>rm -rf</code> 会在不提示的情况下删除目录及其所有内容。
+          对新手来说，尽量避免对不确定的路径执行 <code>rm -rf</code>，可以先用
+          <code>ls</code> 看清楚，再分批删除。
+        </p>
+        <p>
+          快速查看文本文件时可以使用：
+        </p>
+        <ul>
+          <li>
+            <code>cat file.txt</code> – 将整个文件内容输出到终端。
+          </li>
+          <li>
+            <code>less file.txt</code> – 以可滚动的方式查看文件，使用方向键移动，
+            <code>q</code> 退出。
+          </li>
+          <li>
+            <code>head -n 20 file.txt</code> – 显示前 20 行。
+          </li>
+          <li>
+            <code>tail -n 20 file.txt</code> – 显示最后 20 行。
+          </li>
+        </ul>
+
+        <h2>查看系统与进程状态</h2>
+        <p>
+          你经常需要回答这样的问题：“现在有哪些程序在运行？”、“磁盘和内存用了多少？”。下面这些命令可以
+          帮助你快速了解系统状态。
+        </p>
+        <ul>
+          <li>
+            <code>whoami</code> – 显示当前用户。
+          </li>
+          <li>
+            <code>uname -a</code> – 打印系统内核与架构等基础信息。
+          </li>
+          <li>
+            <code>df -h</code> – 以易读的单位显示各个分区的磁盘使用情况。
+          </li>
+          <li>
+            <code>free -h</code> – 显示内存（RAM）使用情况。
+          </li>
+          <li>
+            <code>ps aux</code> – 以详细格式列出正在运行的进程。
+          </li>
+          <li>
+            <code>top</code> 或 <code>htop</code> – 交互式查看进程和资源占用。
+          </li>
+          <li>
+            <code>kill PID</code> – 通过进程 ID 发送信号终止进程（PID 可从
+            <code>ps</code> 或 <code>top</code> 中查看）。
+          </li>
+        </ul>
+        <p>
+          在练习阶段，更建议先观察进程和资源变化，而不是频繁结束进程。在共享或生产环境中，停止关键服务前
+          一定要与团队成员沟通。
+        </p>
+
+        <h2>查找内容与阅读帮助</h2>
+        <p>
+          熟悉了移动与查看之后，下一步是学会“找到东西”和“看懂命令在做什么”。
+        </p>
+        <ul>
+          <li>
+            <code>find . -name "模式"</code> – 在当前目录及子目录中查找文件，例如
+            <code>find . -name "*.log"</code>。
+          </li>
+          <li>
+            <code>grep "文本" file.txt</code> – 在文件中查找包含某个模式的行，使用
+            <code>-i</code> 可以忽略大小写。
+          </li>
+          <li>
+            <code>命令 --help</code> – 查看许多命令的简要帮助信息。
+          </li>
+          <li>
+            <code>man 命令</code> – 打开完整的手册页。使用方向键或
+            <code>/</code> 搜索，<code>q</code> 退出。
+          </li>
+        </ul>
+        <p>
+          养成阅读 <code>--help</code> 输出和手册页的习惯，可以逐渐减少对网上复制粘贴命令的依赖，
+          更好地理解自己在执行什么操作。
+        </p>
+
+        <h2>安全地把命令用起来</h2>
+        <p>
+          一开始并不需要记住所有参数，只要先把一套基础工具用熟：
+          <code>pwd</code>、<code>ls</code>、<code>cd</code>、<code>mkdir</code>、
+          <code>cp</code>、<code>mv</code>、<code>rm</code>、<code>cat</code>、
+          <code>less</code>、<code>tail</code>、<code>grep</code>、
+          <code>find</code>、<code>df</code>、<code>free</code>、
+          <code>ps</code>、<code>top</code> 和 <code>man</code>。
+        </p>
+        <p>
+          最适合练习的环境是可随时丢弃的系统，比如虚拟机、容器，或你自己机器上不重要的 WSL 发行版。
+          当你在这些环境中建立起信心之后，就可以更有把握、更有纪律地在正式服务器上使用同样的命令。
+        </p>
+      </article>
+      <p class="mt-12">
+        <a href="/blog" class="text-blue-600 hover:text-blue-800">
+← 返回博客列表</a
+        >
+      </p>
+    </main>
+  </body>
+</html>

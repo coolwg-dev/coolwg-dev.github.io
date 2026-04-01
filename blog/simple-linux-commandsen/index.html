@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Simple Linux Commands: A Practical Starter Guide</title>
+    <meta
+      name="description"
+      content="Learn essential Linux terminal commands for navigating files, inspecting the system, and managing processes safely."
+    />
+    <meta
+      name="keywords"
+      content="linux, commands, terminal, shell, beginner"
+    />
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <main class="container mx-auto px-4 py-12 prose max-w-3xl">
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-4">Simple Linux Commands: A Practical Starter Guide</h1>
+        <p class="text-gray-500 text-sm">
+📅 2026-04-01
+        </p>
+      </header>
+      <article class="prose prose-slate max-w-none">
+        <h2>Why Learn Simple Linux Commands</h2>
+        <p>
+          Many development and data workflows eventually touch a Linux system:
+          cloud servers, containers, WSL on Windows, or a remote machine you log
+          into over <code>ssh</code>. Being comfortable with a small set of
+          reliable commands makes you faster, safer, and less dependent on
+          graphical tools.
+        </p>
+        <p>
+          This guide focuses on a pragmatic subset of commands you can memorise
+          and actually use. The goal is not to know every option, but to build
+          a mental model of how the shell sees files, processes, and text.
+        </p>
+
+        <h2>Getting Comfortable with the Shell</h2>
+        <p>
+          When you open a terminal, you typically land in your home directory.
+          Start by learning how to see where you are and what is around you.
+        </p>
+        <ul>
+          <li>
+            <code>pwd</code> – print working directory. Shows the absolute path
+            of your current location.
+          </li>
+          <li>
+            <code>ls</code> – list files in the current directory. Use
+            <code>ls -l</code> for details, <code>ls -a</code> to include hidden
+            files.
+          </li>
+          <li>
+            <code>cd path/</code> – change directory. Use
+            <code>cd ..</code> to go up one level and <code>cd ~</code> to
+            return to your home.
+          </li>
+          <li>
+            <code>clear</code> – clear the terminal screen without changing
+            your location.
+          </li>
+        </ul>
+        <p>
+          A useful habit is to run <code>pwd</code> and <code>ls</code> before
+          you execute commands that change or remove files, just to confirm you
+          are in the directory you think you are.
+        </p>
+
+        <h2>Working with Files and Directories</h2>
+        <p>
+          Most day-to-day work is about creating, copying, moving, and
+          inspecting files and folders.
+        </p>
+        <ul>
+          <li>
+            <code>mkdir my-folder</code> – create a new directory.
+          </li>
+          <li>
+            <code>rmdir empty-folder</code> – remove an empty directory.
+          </li>
+          <li>
+            <code>cp source.txt dest.txt</code> – copy a file. Use
+            <code>cp -r src/ dest/</code> for directories.
+          </li>
+          <li>
+            <code>mv old-name.txt new-name.txt</code> – move or rename a file.
+          </li>
+          <li>
+            <code>rm file.txt</code> – remove a file.
+          </li>
+        </ul>
+        <p>
+          Be careful with recursive deletion:
+          <code>rm -rf</code> will remove directories and their contents without
+          asking. As a beginner, avoid running <code>rm -rf</code> on paths you
+          are not absolutely sure about. Prefer to inspect with
+          <code>ls</code> and remove smaller pieces first.
+        </p>
+        <p>
+          To quickly look at text files:
+        </p>
+        <ul>
+          <li>
+            <code>cat file.txt</code> – print the whole file to the terminal.
+          </li>
+          <li>
+            <code>less file.txt</code> – open a scrollable viewer. Use the
+            arrow keys to navigate and <code>q</code> to quit.
+          </li>
+          <li>
+            <code>head -n 20 file.txt</code> – show the first 20 lines.
+          </li>
+          <li>
+            <code>tail -n 20 file.txt</code> – show the last 20 lines.
+          </li>
+        </ul>
+
+        <h2>Inspecting the System and Processes</h2>
+        <p>
+          You often need to answer questions such as “what is running?” or
+          “what is using disk space?”. These commands give you a quick view.
+        </p>
+        <ul>
+          <li>
+            <code>whoami</code> – show the current user.
+          </li>
+          <li>
+            <code>uname -a</code> – print basic system information (kernel and
+            architecture).
+          </li>
+          <li>
+            <code>df -h</code> – display disk usage by filesystem in
+            human-readable units.
+          </li>
+          <li>
+            <code>free -h</code> – show memory (RAM) usage.
+          </li>
+          <li>
+            <code>ps aux</code> – list running processes in detail.
+          </li>
+          <li>
+            <code>top</code> or <code>htop</code> – interactive view of
+            processes and resource usage.
+          </li>
+          <li>
+            <code>kill PID</code> – send a signal to a process by its numeric
+            ID (you can find this from <code>ps</code> or <code>top</code>).
+          </li>
+        </ul>
+        <p>
+          When learning, practice observing processes rather than killing them
+          aggressively. On shared or production systems, coordinate with others
+          before stopping long-running services.
+        </p>
+
+        <h2>Finding Things and Reading Help</h2>
+        <p>
+          Once you know how to move around, the next step is finding files and
+          understanding what commands do.
+        </p>
+        <ul>
+          <li>
+            <code>find . -name "pattern"</code> – search for files under the
+            current directory. For example,
+            <code>find . -name "*.log"</code>.
+          </li>
+          <li>
+            <code>grep "text" file.txt</code> – search for lines containing a
+            pattern. Add <code>-i</code> for case-insensitive matches.
+          </li>
+          <li>
+            <code>command --help</code> – show a short help summary for many
+            commands.
+          </li>
+          <li>
+            <code>man command</code> – open the manual page with full
+            documentation. Use the arrow keys or <code>/</code> to search,
+            then <code>q</code> to quit.
+          </li>
+        </ul>
+        <p>
+          Getting into the habit of reading <code>--help</code> output and
+          manual pages will gradually make you independent of copy-paste
+          snippets from the web.
+        </p>
+
+        <h2>Putting It Together Safely</h2>
+        <p>
+          You do not need to memorise every option on day one. Focus on a core
+          toolkit: <code>pwd</code>, <code>ls</code>, <code>cd</code>,
+          <code>mkdir</code>, <code>cp</code>, <code>mv</code>, <code>rm</code>,
+          <code>cat</code>, <code>less</code>, <code>tail</code>,
+          <code>grep</code>, <code>find</code>, <code>df</code>,
+          <code>free</code>, <code>ps</code>, <code>top</code>, and
+          <code>man</code>.
+        </p>
+        <p>
+          The safest place to experiment is a disposable environment such as a
+          virtual machine, a container, or a non-critical WSL distribution on
+          your own machine. Once you are comfortable, you can apply the same
+          commands on servers with more confidence and discipline.
+        </p>
+      </article>
+      <p class="mt-12">
+        <a href="/blog" class="text-blue-600 hover:text-blue-800">
+← 返回博客列表</a
+        >
+      </p>
+    </main>
+  </body>
+</html>
