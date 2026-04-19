@@ -386,6 +386,31 @@ header h1::after {
   width: 100%;
 }
 
+/* Skills Section */
+.skills-section {
+  margin-top: 60px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.skills-list {
+  list-style: disc;
+  margin: 0 auto;
+  padding-left: 1.25rem;
+  max-width: 520px;
+  text-align: left;
+  color: var(--text-secondary);
+}
+
+.skills-list li {
+  margin: 8px 0;
+}
+
+.skills-list li::marker {
+  color: var(--accent);
+}
+
 /* CTA Section */
 .cta-section {
   margin-top: 60px;
