@@ -1,0 +1,6 @@
+ticker,name,sector,industry,market_cap_usd,price,currency,same_sector_as_subject
+0669.HK,Techtronic Industries Company Limited,Industrials,Tools & Accessories,236754567168,129.7,HKD,True
+6588.T,Toshiba Tec Corporation,Technology,Computer Hardware,152339365888,2875.0,JPY,False
+HUSQ-B.ST,Husqvarna AB (publ),Industrials,Tools & Accessories,19826970624,34.67,SEK,True
+SNA,Snap-on Incorporated,Industrials,Tools & Accessories,19004545024,367.4,USD,True
+SWK,"Stanley Black & Decker, Inc.",Industrials,Tools & Accessories,13543172096,89.68,USD,True
